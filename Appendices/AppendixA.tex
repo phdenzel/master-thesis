@@ -1,0 +1,153 @@
+% !TEX root = ../main.tex
+% Appendix A
+
+\chapter{Derivation of the Euler equations} % Main appendix title
+
+\label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
+
+The Euler equations Eqs.~\eqref{eq:EulerMass}, \eqref{eq:EulerMomentum}, and \eqref{eq:EulerEnergy} are derived by taking moments, i.e., $m\cdot\int_{\mathbb{R}^{3}} \mathrm{d}^{3}v$, $m\cdot\int_{\mathbb{R}^{3}}\,\textbf{v}\,\mathrm{d}^{3}v$ and $m\cdot\int_{\mathbb{R}^{3}}\,\frac{v^{2}}{2}\,\mathrm{d}^{3}v$, of the Boltzmann equation \eqref{eq:BoltzmannEQ}.
+
+\begin{equation*}
+  \frac{\partial f}{\partial t} + \dot{\textbf{x}} \frac{\partial f}{\partial \textbf{x}} + \dot{\textbf{v}} \frac{\partial f}{\partial \textbf{v}} = \Big(\frac{Df}{Dt}\Big)_{\text{coll.}}
+\end{equation*}
+
+Since these moments represent collisional invariants, the collision integral is averaged to zero (see \secref{sec:HydrodynamicEquations}).
+\begin{itemize}
+ \item The first moment ($m\cdot\int \mathrm{d}^{3}v$) of the Boltzmann equation reads
+ \begin{align*}
+  &0 = m \int\,\frac{\partial f}{\partial t}\,\mathrm{d}^{3}v \,+\, m \int\,\dot{\textbf{x}}\,\frac{\partial f}{\partial \textbf{x}}\,\mathrm{d}^{3}v \,+\, m \int\,\dot{\textbf{v}}\,\frac{\partial f}{\partial \textbf{v}}\,\mathrm{d}^{3}v \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial}{\partial t} \underbrace{ \int\,m  f\,\mathrm{d}^{3}v }_{\rho(\textbf{x}, t)} \,+\, \underbrace{ \frac{\partial}{\partial \textbf{x}} }_{\nabla} \int\,m \underbrace{ \dot{\textbf{x}} }_{\textbf{v}} f\,\mathrm{d}^{3}v \,+\, m \int\,\underbrace{ \dot{\textbf{v}} }_{\textbf{a}} \frac{\partial f}{\partial \textbf{v}}\,\mathrm{d}^{3}v \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial}{\partial t} \rho(\textbf{x}, t) \,+\, \nabla \underbrace{ \int\,m \textbf{v} f\,\mathrm{d}^{3}v }_{\rho(\textbf{x}, t)  \textbf{u}} \enskip+\enskip m\,\textbf{a} \underbrace{ \int\,\frac{\partial f}{\partial \textbf{v}}\,\mathrm{d}^{3}v }_{ \mathclap{[f(\infty) - f(-\infty)] \rightarrow 0} }
+ \end{align*}
+ In the first step, we have used the Leibniz integral rule, whereas in the second step we have used the moments of the distribution function itself, see Eqs.~\eqref{eq:fmoment1} and \eqref{eq:fmoment2}.
+ Since $f$ is a well--behaved distribution function, it has the property: $f \rightarrow 0$ for $\textbf{v} \rightarrow \pm \infty$, from which follows $[f(\textbf{v} = \infty) - f(\textbf{v} = -\infty)] \rightarrow 0$.
+ This yields the first Euler equation \eqref{eq:EulerMass}, representing the conservation of mass.
+ \begin{align*}
+  \Aboxed{\frac{\partial\rho}{\partial t} \,+\, \nabla(\rho\textbf{u}) = 0}
+ \end{align*}
+
+ \item The second moment ($m \int\,\textbf{v}\,\mathrm{d}^{3}v$) of the Boltzmann equation reads
+ \begin{align*}
+  &0 = m \int\,\textbf{v}\frac{\partial f}{\partial t}\,\mathrm{d}^{3}v \,+\, m \int\,\textbf{v}\,\dot{\textbf{x}}\,\frac{\partial f}{\partial \textbf{x}}\,\mathrm{d}^{3}v \,+\, m \int\,\textbf{v}\,\dot{\textbf{v}}\,\frac{\partial f}{\partial \textbf{v}}\,\mathrm{d}^{3}v \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial}{\partial t} \underbrace{ \int\,m \textbf{v}f\,\mathrm{d}^{3}v }_{\rho(\textbf{x}, t)\textbf{u}} \,+\, \underbrace{ \frac{\partial}{\partial \textbf{x}} }_{\nabla} \int\,m \underbrace{ \textbf{v}\,\dot{\textbf{x}} }_{\textbf{v}\otimes\textbf{v}} f\,\mathrm{d}^{3}v \,+\, m \int\,\textbf{v}\,\underbrace{ \dot{\textbf{v}} }_{\textbf{a}} \frac{\partial f}{\partial \textbf{v}}\,\mathrm{d}^{3}v \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial(\rho \textbf{u})}{\partial t} \,+\, \nabla \int\,m \big(\textbf{v}\otimes\textbf{v}\big) f\,\mathrm{d}^{3}v \,+\, m \textbf{a}\,\underbrace{ \int\,\textbf{v}\,\frac{\partial f}{\partial \textbf{v}}\,\mathrm{d}^{3}v }_{\mathclap{\int\,\alpha\beta'\,\mathrm{d}s = \alpha\beta\mid_{-\infty}^{\infty} - \int\,\alpha'\beta\,\mathrm{d}s}}
+ \end{align*}
+ Again, we have used the Leibniz integral rule and the definitions of the distribution function's moments.
+ Here, the second term can be written with $\textbf{v} = \textbf{u} + \textbf{w}$, where $\textbf{w}$ describes the thermal velocity with an average of $\langle \textbf{w}\rangle = 0$, such that the average fluid velocity still remains $\langle \textbf{v}\rangle = \textbf{u}$.
+ Using integration by parts on the third term with $\alpha = \textbf{v}$, $\alpha' = 1$, $\beta' = \frac{\partial f}{\partial\textbf{v}}$, and $\beta = f$, we get
+ \begin{align*}
+ \Longleftrightarrow\qquad
+  &0 = \frac{\partial(\rho \textbf{u})}{\partial t} \,+\, \nabla \int\,m \big(\textbf{v}\otimes\textbf{v}\big) f\,\mathrm{d}^{3}v \,+\, m \textbf{a}\,\big(\underbrace{ \textbf{v}\,f\mid_{-\infty}^{\infty} }_{\mathclap{f \rightarrow 0 \text{ for } \textbf{v} \rightarrow \pm \infty}} - \underbrace{ \int\,f\mathrm{d}^{3}v }_{n(\textbf{x}, t)}\big)
+ \end{align*}
+ where $n(\textbf{x}, t) = \frac{\rho(\textbf{x}, t)}{m}$ is the number density.
+ Again, the distribution function is well--behaved, which is why the first term in the parenthesis goes to zero.
+ From this point on, the second term is easier to understand if we make use of Einstein's notation
+ \begin{align*}
+ \Longleftrightarrow\qquad
+  &0 = \frac{\partial(\rho u_{i})}{\partial t} \,+\, \nabla \int\,m \,\underbrace{ \big(v_{i}v_{j}\big) }_{\mathclap{u_{i}u_{j} + w_{i}w_{j} + u_{i}w_{j} + u_{j}w_{i}}} f\,\mathrm{d}^{3}v \,-\, \rho\,a_{i} \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial(\rho u_{i})}{\partial t} \,+\, \nabla \int\,m \,\big(u_{i}u_{j} + w_{i}w_{j} + u_{i}w_{j} + u_{j}w_{i}\big) f\,\mathrm{d}^{3}v \,-\, \rho\,a_{i} \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial(\rho u_{i})}{\partial t} \,+\, \nabla m \,\big( \int u_{i}u_{j} f\,\mathrm{d}^{3}v + \int w_{i}w_{j} f\,\mathrm{d}^{3}v \\
+   &\hspace{76pt} + \int u_{i}w_{j} f\,\mathrm{d}^{3}v + \int u_{j}w_{i} f\,\mathrm{d}^{3}v\big) \,-\, \rho\,a_{i} \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial(\rho u_{i})}{\partial t} \,+\, \nabla m \,\big( \int u_{i}u_{j} f\,\mathrm{d}^{3}v + \int w_{i}w_{j} f\,\mathrm{d}^{3}v \\
+   &\hspace{66pt} + u_{i} \underbrace{ \int w_{j} f\,\underbrace{ \mathrm{d}^{3}v }_{\mathrm{d}^{3}w} }_{n(\textbf{x}, t)\langle \textbf{w}\rangle = 0} \,+\, u_{j} \underbrace{ \int w_{i} f\,\underbrace{ \mathrm{d}^{3}v }_{\mathrm{d}^{3}w} }_{n(\textbf{x}, t)\langle \textbf{w}\rangle = 0}\big) \,-\, \rho\,a_{i} \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial(\rho u_{i})}{\partial t} \,+\, \nabla m \,\big( \underbrace{ \int u_{i}u_{j} f\,\mathrm{d}^{3}v }_{(u_{i}u_{j})n(\textbf{x}, t)} + \int w_{i}w_{j} f\,\mathrm{d}^{3}v\big) \,-\, \rho\,a_{i} \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial(\rho u_{i})}{\partial t} \,+\, \nabla \big( \rho(u_{i}u_{j}) + \underbrace{ \int m  w_{i}w_{j} f\,\mathrm{d}^{3}v}_{\equiv \mathbb{P}_{ij}} \big) \,-\, \rho\,a_{i}
+ \end{align*}
+ In the last step, we used the definition for the pressure tensor $\mathbb{P}_{ij} \equiv \int m  w_{i}w_{j} f\,\mathrm{d}^{3}w$.
+ Rewriting this final equation again in vectorial form, recovers the second Euler equation \eqref{eq:EulerMomentum}.
+ \begin{align*}
+  \Aboxed{\frac{\partial(\rho \textbf{u})}{\partial t} \,+\, \nabla \big( \rho(\textbf{u}\otimes\textbf{u}) + \mathbb{P} \big) = \rho\,\textbf{a}}
+ \end{align*}
+
+ \item The third moment ($m \int_{\mathbb{R}^{3}}\,\frac{v^{2}}{2}\,\mathrm{d}^{3}v$) of the Boltzmann equation reads
+ \begin{align*}
+  &0 = m \int\,\underbrace{ \frac{v^{2}}{2} }_{\mathclap{\frac{u^{2}}{2}+\frac{w^{2}}{2}+\textbf{u}\cdot\textbf{w}}}\frac{\partial f}{\partial t}\,\mathrm{d}^{3}v \,+\, m \int\,\underbrace{ \frac{v^{2}}{2} }_{\mathclap{\frac{u^{2}}{2}+\frac{w^{2}}{2}+\textbf{u}\cdot\textbf{w}}}\,\underbrace{ \dot{\textbf{x}} }_{\textbf{v}}\,\frac{\partial f}{\partial \textbf{x}}\,\mathrm{d}^{3}v \,+\, m \int\,\frac{v^{2}}{2}\,\underbrace{ \dot{\textbf{v}} }_{\textbf{a}}\,\frac{\partial f}{\partial \textbf{v}}\,\mathrm{d}^{3}v \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial}{\partial t}\Big( \int m \frac{u^{2}}{2}f\,\mathrm{d}^{3}v + \underbrace{ \int\,m \frac{w^{2}}{2}f\,\underbrace{ \mathrm{d}^{3}v }_{\mathrm{d}^{3}w} }_{\mathclap{\equiv\,\rho\epsilon}} + m\,\textbf{u}\underbrace{ \int m\,\textbf{w}\,f\,\underbrace{ \mathrm{d}^{3}v }_{\mathrm{d}^{3}w} }_{n(\textbf{x}, t)\langle \textbf{w}\rangle = 0} \Big) \\
+   &\hspace{3pt} +\, \underbrace{ \frac{\partial}{\partial\textbf{x}} }_{\nabla}\Big( \int m\,\frac{u^{2}}{2}\textbf{v}\,f\,\mathrm{d}^{3}v + \int\,m\,\frac{w^{2}}{2}\textbf{v}\,f\,\mathrm{d}^{3}v + \int\,m\,\big(\textbf{u}\cdot\textbf{w}\big)\textbf{v} f\,\mathrm{d}^{3}v \Big) \\
+   &\hspace{3pt} +\, m\,\textbf{a} \underbrace{\int\,\frac{v^{2}}{2}\,\frac{\partial f}{\partial \textbf{v}}\,\mathrm{d}^{3}v }_{\mathclap{\int\,\alpha\beta'\,\mathrm{d}s = \alpha\beta\mid_{-\infty}^{\infty} - \int\,\alpha'\beta\,\mathrm{d}s}}
+ \end{align*}
+ As in the derivations before, we have made use of the Leibniz integral rule, the thermal velocity $\textbf{w} = \textbf{v} - \textbf{u}$ with $\langle \textbf{w}\rangle = 0$, and the definitions of the distribution function's moments.
+ In the third term, we --- again --- integrate by parts, with $\alpha = \frac{v^{2}}{2}$, $\alpha' = \textbf{v}$, $\beta' = \frac{\partial f}{\partial\textbf{v}}$, and $\beta = f$, and subsequently remember that $f \rightarrow 0$ for $\textbf{v} \rightarrow \pm \infty$, since $f$ is a distribution.
+ \begin{align*}
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial}{\partial t}\Big( \frac{u^{2}}{2}\underbrace{ \int m\,f\,\mathrm{d}^{3}v }_{\rho(\textbf{x}, t)} + \rho\epsilon \Big) \\
+   &\hspace{3pt} +\, \nabla\Big( \frac{u^{2}}{2}\underbrace{ \int m\,\textbf{v}\,f\,\mathrm{d}^{3}v }_{\rho(\textbf{x}, t)\textbf{u}} + \int\,m\,\underbrace{ \textbf{v} }_{\mathclap{\textbf{u}+\textbf{w}}} \frac{w^{2}}{2}f\,\mathrm{d}^{3}v + \int\,m\,\big(\textbf{u}\cdot\textbf{w}\big)\underbrace{ \textbf{v} }_{\mathclap{\textbf{u}+\textbf{w}}} f\,\mathrm{d}^{3}v \Big) \\
+   &\hspace{3pt} +\, m\,\textbf{a} \big( \underbrace{ \frac{v^{2}}{2}\,f\mid_{-\infty}^{\infty} }_{\mathclap{f \rightarrow 0 \text{ for } \textbf{v} \rightarrow \pm \infty}} - \underbrace{ \int\textbf{v}\,f\,\mathrm{d}^{3}v }_{n(\textbf{x}, t)\textbf{u}} \big) \\
+  \Longleftrightarrow\qquad
+  &0 = \frac{\partial}{\partial t}\Big( \frac{1}{2}\rho\,u^{2} + \rho\epsilon \Big) \\
+   &\hspace{3pt} +\, \nabla\Big( \frac{1}{2}\rho\,u^{2}\,\textbf{u} + \underbrace{ \int\,m\,\big(\textbf{u}+\textbf{w}\big) \frac{w^{2}}{2}f\,\mathrm{d}^{3}v }_{I_{1}} + \underbrace{ \int\,m\,\big(\textbf{u}\cdot\textbf{w}\big)\big(\textbf{u}+\textbf{w}\big) f\,\mathrm{d}^{3}v }_{I_{2}} \Big) \\
+   &\hspace{3pt} -\, \rho\,\textbf{a}\,\textbf{u}
+ \end{align*}
+ For sake of simplicity, we now look at the integrals $I_{1}$ and $I_{2}$ separately. And again, for $I_{2}$ we use Einstein's notation
+ \begin{align*}
+  I_{1} &= \int m\,\big(\textbf{u}+\textbf{w}\big)\frac{w^{2}}{2}\,f\,\mathrm{d}^{3}v \\
+	&= \int m\,\textbf{u}\,\frac{w^{2}}{2}\,f\,\mathrm{d}^{3}v \,+\, \int m\,\textbf{w}\,\frac{w^{2}}{2}\,f\,\mathrm{d}^{3}v \\
+	&= \textbf{u}\underbrace{ \int m\,\frac{w^{2}}{2}\,f\,\underbrace{ \mathrm{d}^{3}v }_{\mathclap{\mathrm{d}^{3}w}} }_{\mathclap{\equiv\,\rho\epsilon}} \,+\, \underbrace{ \int m\,\textbf{w}\,\frac{w^{2}}{2}\,f\,\mathrm{d}^{3}v }_{\equiv \textbf{Q}} \\
+	&= \rho\epsilon\cdot\textbf{u} + \textbf{Q} \\
+  \\
+  I_{2} &= \int\,m\,\big(\textbf{u}\cdot\textbf{w}\big)\big(\textbf{u}+\textbf{w}\big) f\,\mathrm{d}^{3}v \\
+	&= \int\,m\,\big(\textbf{u}\cdot\textbf{w}\big)\,\textbf{u}\,f\,\mathrm{d}^{3}v \,+\, \int\,m\,\big(\textbf{u}\cdot\textbf{w}\big)\,\textbf{w}\,f\,\mathrm{d}^{3}v \\
+	&= \int\,m\,u_{i}\,w_{i}\,u_{j}\,f\,\mathrm{d}^{3}v \,+\, \int\,m\,u_{i}\,w_{i}\,w_{j}\,f\,\mathrm{d}^{3}v \\
+	&= u_{i}\,u_{j}\underbrace{ \int\,m\,w_{i}\,f\,\mathrm{d}^{3}v }_{n(\textbf{x}, t)\langle \textbf{w}\rangle = 0} \,+\, \underbrace{ u_{i}\int\,m\,w_{i}\,w_{j}\,f\,\mathrm{d}^{3}v }_{\equiv \mathbb{P}_{ij}\,u_{i}} \\
+	&= \mathbb{P}_{ij}\,u_{i} \,=\, \mathbb{P}\,\textbf{u}
+ \end{align*}
+ Re--substituting both expressions for the integrals $I_{1}$ and $I_{2}$ into the equation before, yields
+ \begin{align*}
+  &0 = \frac{\partial}{\partial t}\underbrace{ \Big( \frac{1}{2}\rho\,u^{2} + \rho\epsilon \Big) }_{\equiv E} \,+\, \nabla\Big( \underbrace{ \big(\frac{1}{2}\rho\,u^{2} + \rho\epsilon\big) }_{\equiv E} \textbf{u} + \mathbb{P}\,\textbf{u} + \textbf{Q} \Big) \,-\, \rho\,\textbf{a}\,\textbf{u}
+ \end{align*}
+ The energy density is defined as $E = \frac{1}{2}\rho\,u^{2} + \rho\,\epsilon$ and is the conserved quantity in the third Euler equation \eqref{eq:EulerEnergy} which is the equation above, if one neglects the heat flux term $\textbf{Q}$.
+ \begin{align*}
+  \Aboxed{\frac{\partial E}{\partial t} \,+\, \nabla\Big(E + \mathbb{P}\Big)\,\textbf{u} = \rho\,\textbf{a}\,\textbf{u}}
+ \end{align*}
+
+ \item From this point, knowing that the Lagrangian derivative $\frac{D}{Dt} \equiv \frac{\partial}{\partial t} + \textbf{u} \cdot \nabla$ is also linear, going from Eulerian to Lagrangian form of the equations is not hard.
+
+ \eqref{eq:EulerMass} to \eqref{eq:EulerMassL}:
+ \vspace{-0.5cm}
+ \begin{align*}
+  &\frac{\partial\rho}{\partial t} \,+\, \underbrace{ \nabla(\rho\textbf{u}) }_{\mathclap{\rho\,\nabla\cdot\textbf{u} + \textbf{u}\cdot\nabla\,\rho}} = 0 \\
+  \Longleftrightarrow\qquad
+  &\underbrace{ \frac{\partial\rho}{\partial t} \,+\, \textbf{u}\cdot\nabla\,\rho }_{\frac{D\rho}{Dt}} \,+\, \rho\,\nabla\cdot\textbf{u} = 0 \\
+  \Longleftrightarrow\qquad\!\!
+  \Aboxed{&\frac{1}{\rho}\frac{D\rho}{Dt} = -\nabla\cdot\textbf{u}}
+ \end{align*}
+ \eqref{eq:EulerMomentum} to \eqref{eq:EulerMomentumL}:
+ \vspace{-0.5cm}
+ \begin{align*}
+  &\frac{\partial(\rho \textbf{u})}{\partial t} \,+\, \nabla \big( \rho(\textbf{u}\otimes\textbf{u}) + \mathbb{P} \big) = \rho\,\textbf{a} \\
+  \Longleftrightarrow\qquad
+  &\textbf{u}\frac{\partial\rho}{\partial t} + \rho\frac{\partial\textbf{u}}{\partial t} \,+\, \underbrace{ \nabla\big(\rho(\textbf{u}\otimes\textbf{u})\big) }_{\mathclap{\rho\big(\textbf{u}(\nabla\cdot\textbf{u}) + (\textbf{u}\cdot\nabla)\textbf{u}\big) + \textbf{u}\big(\textbf{u}\cdot\nabla\,\rho\big)}} = -\nabla\mathbb{P} + \rho\,\textbf{a} \\
+  \Longleftrightarrow\qquad
+  &\underbrace{ \textbf{u}\frac{\partial\rho}{\partial t} + \textbf{u}\big(\textbf{u}\cdot\nabla\,\rho\big) }_{\mathclap{\textbf{u}\frac{D\rho}{Dt} = \,-\rho\textbf{u}\big(\nabla\cdot\textbf{u}\big)}} \,+\, \underbrace{ \rho\frac{\partial\textbf{u}}{\partial t} + \rho(\textbf{u}\cdot\nabla)\textbf{u} }_{\mathclap{\rho\frac{D\textbf{u}}{Dt}}} \,+\, \rho\textbf{u}(\nabla\cdot\textbf{u}) = -\nabla\mathbb{P} + \rho\,\textbf{a} \\
+  \Longleftrightarrow\qquad
+  &\rho\frac{D\textbf{u}}{Dt} \,-\, \rho\textbf{u}\big(\nabla\cdot\textbf{u}\big) \,+\, \rho\textbf{u}(\nabla\cdot\textbf{u}) = -\nabla\mathbb{P} + \rho\,\textbf{a} \\
+  \Longleftrightarrow\qquad\!\!
+  \Aboxed{&\rho\frac{D\textbf{u}}{Dt} = -\nabla\mathbb{P} + \rho\,\textbf{a}}
+ \end{align*}
+ \eqref{eq:EulerEnergy} to \eqref{eq:EulerEnergyL}:
+ \begin{align*}
+  &\frac{\partial E}{\partial t} \,+\, \underbrace{ \nabla\big(E+\mathbb{P}\big)\textbf{u} }_{\mathclap{\textbf{u}\cdot\nabla E + E(\nabla\cdot\textbf{u}) + \textbf{u}\cdot\nabla\mathbb{P} + \mathbb{P}\,\nabla\cdot\textbf{u}}} = \rho\textbf{a}\textbf{u} \\
+  \Longleftrightarrow\qquad
+  &\underbrace{ \frac{\partial E}{\partial t} + \textbf{u}\cdot\nabla E }_{\mathclap{\frac{DE}{Dt}}} + E(\underbrace{ \nabla\cdot\textbf{u} }_{\mathclap{-\frac{1}{\rho} \frac{D\rho}{Dt}}}) + \textbf{u}\cdot\nabla\mathbb{P} + \mathbb{P}\,\nabla\cdot\textbf{u} = \rho\textbf{a}\textbf{u} \\
+  \Longleftrightarrow\qquad
+  &\underbrace{ \frac{DE}{Dt} }_{\mathclap{\hspace{75pt}\frac{D}{Dt}\big(\frac{1}{2}\rho u^{2} + \rho\epsilon\big) = \frac{1}{2}u^{2}\frac{D\rho}{Dt} + \rho\textbf{u}\frac{D\textbf{u}}{Dt} + \epsilon\frac{D\rho}{Dt} + \rho\frac{D\epsilon}{Dt} }} - \frac{E}{\rho} \frac{D\rho}{Dt} + \textbf{u}\cdot\nabla\mathbb{P} + \mathbb{P}\,\nabla\cdot\textbf{u} = \rho\textbf{a}\textbf{u} \\
+  \Longleftrightarrow\qquad
+  &\frac{1}{2}u^{2}\frac{D\rho}{Dt} + \underbrace{ \rho\textbf{u}\frac{D\textbf{u}}{Dt} }_{\mathclap{\textbf{u}\big(-\nabla\mathbb{P} + \rho\textbf{a}\big)}} + \epsilon\frac{D\rho}{Dt} + \rho\frac{D\epsilon}{Dt} - \underbrace{ \frac{E}{\rho} \frac{D\rho}{Dt} }_{\mathclap{\frac{1}{2}u^{2}\frac{D\rho}{Dt} + \epsilon\frac{D\rho}{Dt}}} + \textbf{u}\cdot\nabla\mathbb{P} + \mathbb{P}\,\nabla\cdot\textbf{u} = \rho\textbf{a}\textbf{u} \\
+  \Longleftrightarrow\qquad
+  &\frac{1}{2}u^{2}\frac{D\rho}{Dt} - \frac{1}{2}u^{2}\frac{D\rho}{Dt} + \epsilon\frac{D\rho}{Dt} - \epsilon\frac{D\rho}{Dt} + \textbf{u}\cdot\nabla\mathbb{P} - \textbf{u}\cdot\nabla\mathbb{P} + \rho\frac{D\epsilon}{Dt} + \mathbb{P}\,\nabla\cdot\textbf{u} = \rho\textbf{a}\textbf{u} - \rho\textbf{a}\textbf{u} \\
+  \Longleftrightarrow\qquad\!\!
+  \Aboxed{&\rho\frac{D\epsilon}{Dt} = - \mathbb{P}\,\nabla\cdot\textbf{u}}
+ \end{align*}
+ For \eqnref{eq:EulerMomentumL} the result before was used, i.e., \eqnref{eq:EulerMassL}, and in a similar manner for \eqnref{eq:EulerEnergyL} both results before were used, i.e. Eqs.~\eqref{eq:EulerMassL} and \eqref{eq:EulerMomentumL}.
+
+\end{itemize}

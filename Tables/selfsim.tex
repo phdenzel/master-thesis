@@ -1,0 +1,16 @@
+\begin{table}
+\begin{adjustbox}{width=1.8\textheight}
+\begin{tabular}{lcccccccccccccccc}
+\toprule
+Name ID & rt & pure\_hydro & isothermal & sink & merging [kyr] & L [AU] & levelmin & levelmax & ncpu & time [kyr] & duration [h] & N$_{sinks}$ & M$_{tot}$ [M$_{\odot}$] & M$_{sink}$ [M$_{\odot}$] & rt\_c\_fraction & rt\_nsubcycle \\
+\midrule
+self\_similar\_iso & .false. & .true. & .true. & .true. & .false. & 799998.02 & 7 & 11 & 64 & 2502.36 & 1.52 & 6 & 93.93 & 67.25 & .false. & .false. \\
+self\_similar\_iso\_merge & .false. & .true. & .true. & .true. & 5 & 799998.02 & 7 & 11 & 64 & 2502.82 & 1.37 & 1 & 77.82 & 77.39 & .false. & .false. \\
+self\_similar & .true. & .false. & .false. & .true. & .false. & 799998.02 & 7 & 11 & 128 & 2502.19 & 7.38 & 2 & 93.90 & 55.43 & 1.4779e-03 & 100 \\
+self\_similar\_merge & .true. & .false. & .false. & .true. & 5 & 799998.02 & 7 & 11 & 128 & 963.21 & 3.08 & 1 & 75.92 & 75.48 & 1.4779e-03 & 100 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption[Low--resolution runs]{Summary of all runs with a physical resolution of 390.62\,AU and a 100\,M$_{\odot}$ non--singular isothermal sphere profile.}
+\label{tab:selfsim}
+\end{table}

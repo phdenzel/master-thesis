@@ -1,0 +1,606 @@
+% !TEX root = ../main.tex
+% Chapter 2 - Theory
+\chapter{Radiation Hydrodynamics} % Main chapter title
+\label{Chapter2} % For referencing the chapter elsewhere, use \ref{Chapter2}
+
+% Introduction ----------------------------------------------------------------------------------------
+The subject discussed in this chapter extends over a large number of disciplines in physics, as its spatial scales of importance can range from microns in high--density plasmas to light years in astrophysical shocks.
+Given the right conditions, e.g., in sufficiently hot or dense matter, radiation can carry a large fraction of momentum and energy density in hydrodynamic flows.
+In these situations the interaction between radiation and matter becomes non--negligible and the theory describing these effects is referred to as \textit{radiation hydrodynamics}.
+% \\[6pt]
+
+Nowadays, many problems, especially in astrophysics, are limited by our understanding of, and ability to model, radiation hydrodynamic effects.
+One of the major difficulties is the presence of multiple time scales, which, in a numerical point of view, leads to build explicit--implicit schemes in time.
+Since it cuts across a wide range of topics in physics, a technical difficulty consists in finding an informative, and self--contained discussion of the subject, although there are some great works out there; see \citet{Mihalas}, \citet{Rybicki_Lightman}, \citet{Shu_1} and \citet{Castor}.
+\\[6pt]
+%
+Thus, I will divide the following discussion and the rest of this chapter into two parts.
+The first part will give a general introduction to non--radiating fluids, and the second part will describe the physics of radiation and its interaction with matter.
+\\[6pt]
+%
+This chapter provides an introduction to the theoretical background needed to describe and understand astrophysical fluids and their dynamics in star formation.
+
+
+% ----------------------------------------------------------------------------------------
+\section{Hydrodynamics equations}
+\label{sec:HydrodynamicEquations}
+Fluid as in its original meaning, derived from the Latin verb \textit{flu\u{e}re} --- to flow, describes a general form of matter as well as the nature of the object itself.
+In fluids the matter is free to flow, meaning that internal stresses, contrary to solids, are primarily isotropic and depend on the local mass and energy density.
+
+% Euler vs. Lagrange ----------------------------------------------------------------------------------------
+The way how a flow of a fluid will change the state of matter is determined by the mass density parameter, whereas the velocity field is the parameter which determines the motion of the fluid.
+When describing the motion of a fluid, we have to decide, how we choose our point of view; generally this can be done in two ways.
+Either, we lay a fixed grid over the fluid and describe each grid point by its determining parameters --- usually given by the thermodynamic functions density, pressure and/or internal energy --- as the fluid flows through the grid, or we define parcels of the fluid and follow them, as their determining parameters change over time.
+In classical field theory, these descriptions are called Eulerian, resp. Lagrangian, specification of the flow field.
+
+% microscopic description ----------------------------------------------------------------------------------------
+Classically, a coarse--graining assumption is also applied to the fluid picture, i.e. the macroscopic fluid is a result and average of microscopic, statistical motions of particles.
+This also means that a particle may have a much higher velocity than the average which is the fluid velocity, but the total distance it covers is much smaller than the cell size; in other words, the free mean path of the particle is much smaller than the cell size, which holds if we are in a relatively high density regime.
+\\[6pt]
+%
+In the following, I will provide a more detailed, analytical approach, to what is discussed above, similar to \citet{Mihalas} or \citet{Shu_2}.
+For a not so mathematical, and generally simpler introduction which is more focused on the physical applications, I refer to \citet{Castor}.
+\\[6pt]
+%
+% Boltzmann equation ----------------------------------------------------------------------------------------
+The classical and easiest way to introduce hydrodynamics is to consider a microscopic description of the fluid particles.
+Describing the evolution of an infinitesimally small fluid element through its particle distribution function $f(\textbf{x}, \textbf{v}, t)$ in phase--space, leads to the so--called Vlaslov (no collision integral) or Boltzmann equation
+
+\begin{equation}
+  \frac{\partial f}{\partial t} + \dot{\textbf{x}} \frac{\partial f}{\partial \textbf{x}} + \dot{\textbf{v}} \frac{\partial f}{\partial \textbf{v}} = \Big(\frac{\mathrm{D}f}{\mathrm{D}t}\Big)_{\text{coll.}}
+\label{eq:BoltzmannEQ}
+\end{equation}
+
+where $\big(\frac{\mathrm{D}f}{\mathrm{D}t}\big)_{\text{coll.}}$ denotes the collision integral of the distribution function.
+
+Under molecular chaos assumption (velocities of particles are uncorrelated prior to collision and independent of position) the collision term can be written with one-particle distribution functions
+
+\begin{equation}
+  \Big(\frac{\mathrm{D}f}{\mathrm{D}t}\Big)_{\text{coll.}} = \int_{4\pi}\int_{\mathbb{R}^{3}}\int_{\mathbb{R}^{3}} (f'_{1}f'_{2} - f_{1}f_{2})\, \sigma\, v\, \mathrm{d}\Omega\, \mathrm{d}^{3}v_{1}\, \mathrm{d}^{3}v_{2}
+\label{eq:collisionInt}
+\end{equation}
+
+where the primed functions denote post--collision one-particle distributions $(f'_{i}=f(v'_{i},t) $ for $ i = 1,2)$, non--primed functions are pre--collision one--particle distribution functions $(f_{i}=f(v_{i},t) $ for $ i = 1,2)$, $\sigma$ is the cross section of the collision, and $v = \lvert v_{1}-v_{2} \rvert = \lvert v'_{1}-v'_{2} \rvert$ the relative velocity.
+
+Assuming detailed balance, i.e., processes or transitions are exactly canceled by its inverse, the material is driven towards local thermodynamic equilibrium (hereafter LTE), where the collisional integral vanishes, since $f_{1}f_{2} = f'_{1}f'_{2}$, and the distribution becomes Maxwellian.
+By taking the moments in velocity space of \eqnref{eq:BoltzmannEQ}, and consequently of the particle distribution function, the microscopic nature of the equation is averaged out and the ideal hydrodynamic Euler equations are recovered; see Appendix~\ref{AppendixA} for detailed derivation or \citet{Mihalas}, and \citet{Shu_2}.
+
+% Moments ----------------------------------------------------------------------------------------
+The moments of the particle distribution function (multiplied by the mass $m$) are
+
+\begin{align}
+  m\cdot \int_{\mathbb{R}^{3}} f(\textbf{x}, \textbf{v}, t)\,\mathrm{d}^{3}v &= \rho(\textbf{x},t) \label{eq:fmoment1} \\
+  m\cdot \int_{\mathbb{R}^{3}} \textbf{v} f(\textbf{x}, \textbf{v}, t)\,\mathrm{d}^{3}v &= \rho(\textbf{x},t) \cdot \textbf{u} \label{eq:fmoment2}
+\end{align}
+
+where $\rho(\textbf{x},t)$ is the density, and $\textbf{u}$ is the average velocity of the fluid.
+
+% Euler equations ----------------------------------------------------------------------------------------
+This leads to the Euler equations in Eulerian form
+
+\begin{align}
+  \frac{\partial \rho}{\partial t} &+ \nabla\cdot (\rho\textbf{u})= 0 \label{eq:EulerMass} \\
+  \frac{\partial (\rho\textbf{u})}{\partial t} &+ \nabla\cdot (\rho(\textbf{u} \otimes \textbf{u}) + \mathbb{P}) = \rho \textbf{a} \label{eq:EulerMomentum}\\
+  \frac{\partial E}{\partial t} &+ \nabla \cdot (E + \mathbb{P}) \textbf{u} = \rho \textbf{a} \textbf{u} \label{eq:EulerEnergy}
+\end{align}
+
+where $\mathbb{P} = \int m f w_{i} w_{j}\,d^{3}v$ is the pressure tensor consisting of the outer product of the thermal velocity $\textbf{w} = \textbf{v} - \textbf{u}$, and the fluid's total energy density $E = \frac{1}{2}\,\rho\,\textbf{u}^{2} + \rho\,\epsilon$ as sum of the kinetic energy density and internal energy density $\epsilon$.
+
+With every moment of the Boltzmann equation, a new flux term is introduced.
+This procedure could go on infinitely, unless we find a way to cut off the loop, also called closure hierarchy.
+In the case for the kinetic Boltzmann equation, one often uses an equation of state (hereafter EOS) to approximate and relate the pressure scalar (and consequently tensor with $\mathbb{P} \approx P\cdot\mathbb{I}$) to the energy or mass density.
+
+At times \eqnref{eq:EulerMass} is also called continuity equation, and describes the conservation of mass in a flow, in fact, all of the equations above describe a conservation law, i.e., for mass, momentum and energy, which is equally important and convenient, when it comes to numerical methods and discretization; see \chapref{Chapter3}.
+Similarly, had we considered a non--ideal system, i.e., not at LTE, but with a perturbation in the particle distribution function to first order, we could have recovered the Navier--Stokes equation which has an additional momentum flux term representing viscosity, and in the energy conservation law a heat flux term; see \citet{Enskog_Chapman}.
+\\[6pt]
+%
+% Euler equations in Lagrangian form ----------------------------------------------------------------------------------------
+Using the Reynolds transport theorem~\footnote{the three--dimensional generalization of the Leibniz integral rule:
+          \begin{equation}
+            \frac{\mathrm{d}}{\mathrm{d}t}\int_{\Omega}\textbf{f}\,\mathrm{d}V = \int_{\Omega}\frac{\partial\textbf{f}}{\partial t}\,\mathrm{d}V + \int_{\partial\Omega}(\textbf{v}\cdot\textbf{n})\textbf{f}\,\mathrm{d}A
+          \end{equation}
+          where $\Omega$ is a time--dependent volume, $\partial\Omega$ its boundary, $\textbf{n}$ the normal vector pointing outwards from the volume surface and $\textbf{f}$ a scalar, vector or tensor.
+}
+to relate the partial derivatives in space and time to the Lagrangian derivative operator $\frac{\mathrm{D}}{\mathrm{D}t} \equiv \frac{\partial}{\partial t} + \textbf{v} \cdot \nabla$ (sometimes also called material derivative), we can rewrite the Euler equations in their Lagrangian form; see Appendix \ref{AppendixA} for details.
+\begin{align}
+  \frac{1}{\rho} \frac{\mathrm{D}\rho}{\mathrm{D}t} &= -\nabla \cdot \textbf{u} \label{eq:EulerMassL} \\
+  \rho \frac{\mathrm{D}\textbf{u}}{\mathrm{D}t} &= -\nabla \cdot \mathbb{P} + \rho \textbf{a} \label{eq:EulerMomentumL} \\
+  \rho \frac{\mathrm{D}\epsilon}{\mathrm{D}t} &= -\mathbb{P}\, \nabla \cdot \textbf{u} \label{eq:EulerEnergyL}
+\end{align}
+These Eqs.~\eqref{eq:EulerMassL}, \eqref{eq:EulerMomentumL} and \eqref{eq:EulerEnergyL} deal with nonconservative variables and are therefore not as convenient to implement in numerical codes.
+Opposed to the Eulerian form, this form of the equations doesn't emphasize the conservation of the specific quantities.
+\eqnref{eq:EulerMassL} rather expresses the compression of the fluid, when its motion converges.
+The second equation \eqref{eq:EulerMomentumL} essentially summarizes Newton's first law, while the third equation \eqref{eq:EulerEnergyL} describes the first law of thermodynamics, i.e., the mechanical work done by the adiabatic compression of the fluid.
+Computationally speaking, when there is a large dynamic range in density, and one needs higher resolution in high density regions, Lagrangian methods tend to be more powerful, whereas when they have to deal with shock relations, they accumulate large errors; see \citet{SPH_shock}.
+Nevertheless, there are for astrophysical simulations widely--used Lagrangian codes, e.g., so--called smoothed--particle hydrodynamics codes, exploiting the fact that fluid elements do not require any explicit topology relating them; see \citet{Gadget} for an example of an SPH code.
+
+% Hydrostatic equilibrium ----------------------------------------------------------------------------------------
+\subsection{Hydrostatic equilibrium}
+\label{subsec:Hydrostatic_equilibrium}
+
+In astrophysics it is always good to have an idea of the given system's equilibrium states.
+The system we want to focus upon henceforth naturally is the topic of this thesis, stars.
+To be able to analytically derive such an equilibrium solution for stars, i.e. where forces are in exact balance and cancel each other to zero, we have to start from the very simplest case.
+To this end, it is fitting to assume a self--gravitating fluid in which motion is absent altogether.
+With the additional assumption of spherical symmetry, i.e. $\rho = \rho(r)$, $\mathbb{P} = P(r)$ and $\textbf{a} = \frac{\partial\phi}{\partial r}$, the momentum Euler equation reads
+
+\begin{equation}
+  \frac{1}{\rho}\frac{\partial P}{\partial r} = -\frac{\partial\phi}{\partial r}
+\label{eq:Hydrostatic_equilibrium}
+\end{equation}
+
+where the gravitational potential is given by the Poisson equation, linking it to the mass density
+
+\begin{equation}
+  \Delta\phi = 4\pi G\rho
+\end{equation}
+
+\eqnref{eq:Hydrostatic_equilibrium} is called the hydrostatic equilibrium equation.
+It holds when a fluid is either totally at rest or its flow velocity constant at each point.
+Here the gravitational force is balanced by the pressure gradient force.
+Pressure gradient forces are an incorporation of Newton's second law and for instance are the reason why our Earth's atmosphere does not collapse under gravity.
+Recalling the form of the Laplacian for spherically symmetric systems ($\Delta = r^{-2} \partial_{r}(r^{2}\partial_{r})$), we can combine the hydrostatic equilibrium equation with the Poisson equation and yield the so--called (dimensional) \textit{Lane--Emden} equation
+
+\begin{equation}
+  \frac{1}{r^{2}} \frac{\partial}{\partial r} \big( \frac{r^{2}}{\rho} \frac{\partial P}{\partial r} \big) = -4\pi G\rho
+\end{equation}
+
+Using an isothermal EOS ($P=c_{s}^{2}\rho$) to connect pressure to the mass density and the sound speed $c_{s}$, we can further derive the isothermal Lane--Emden equation
+
+\begin{equation}
+  \frac{1}{r^{2}} \frac{\partial}{\partial r} \big(r^{2} \frac{\mathrm{d}ln\,\rho}{\mathrm{d}r} \big) = \frac{-4\pi G\rho}{c_{s}^{2}}
+\end{equation}
+
+This equation has an exact solution for $\rho \to 0$ at $r \to \infty$, which is called the \textit{singular isothermal sphere} profile
+
+\begin{equation}
+  \rho(r) = \frac{2c_{s}^{2}}{4\pi Gr^{2}}
+\label{eq:SIS}
+\end{equation}
+
+This profile has a non--physical singularity at the center of the sphere, i.e. for $r \to \infty$.
+To avoid this problem we can impose appropriate boundary conditions and introduce a 'core' radius $r_{0} = \sqrt{\frac{c_{s}^2}{4\pi G\rho_{c}}}$, such that the profile behaves like
+
+\begin{equation}
+  \rho(r) = \frac{\rho_{c}}{1+\big(\frac{r}{r_{0}}\big)^{2}}
+\end{equation}
+
+where the density within the core radius is $\frac{\rho_{c}}{2}$.
+The integrated mass with radius $r \to \infty$ for this profile is nonetheless still infinite, scaling linearly with $r$.
+This can be resolved by introducing another radius which truncates the profile.
+The resulting non--singular Lane---Emden solution is then called \textit{Bonnor--Ebert} sphere, independently derived by \citet{Bonnor} and \citet{Ebert}.
+\\[6pt]
+%
+Due to the asymptotic behavior for $r \gg r_{0}$ all configurations approach the singular isothermal sphere, especially if they have a high density contrast between center and edge, as it is the case for molecular cores.
+
+Even though the isothermal assumption is the simplest case imaginable, it seems to be well-founded.
+In molecular cores the temperature is determined by heating and cooling processes.
+On the edge of very dense cores the heating comes from UV radiation of O and B stars and cosmic rays, dominating the cooling from fine--structure, dust, and H$_{2}$ emission.
+There, temperatures can reach almost 100 Kelvin, but observations tell us that towards the core center the medium starts to become optically thick such that the heating and cooling rates are balanced out and the temperature is almost constant at 10 Kelvin; see \citet{Goldsmith_cooling, Wolfire_10K}.
+
+% Instabilities ----------------------------------------------------------------------------------------
+\subsection{Instabilities and gravitational collapse}
+\label{subsec:Instabilities}
+
+To have a feasible analytical description of star formation from core collapse, we need to introduce perturbations to the equilibrium solutions to test its stability.
+We therefore start from a self--gravitating equilibrium state with $\rho_{0}$, $v=0$, and an isothermal EOS.
+For sake of simplicity we use the one--dimensional Euler equations
+
+\begin{align}
+  \frac{\partial\rho}{\partial t} + \rho\frac{\partial u}{\partial x} + u\frac{\partial\rho}{\partial x} &= 0 \\
+  \frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + \frac{c_{s}^{2}}{\rho}\frac{\partial\rho}{\partial x} &= \frac{\partial\phi}{\partial x}
+\end{align}
+
+we only obtain a viable equilibrium state if the background density, a static medium surrounding the state, is ignored.
+This has come to be known as the 'Jeans Swindle' and is only valid in Cosmology or rotating systems.
+
+Now small perturbations in density, velocity and potential ($\delta\rho$, $\delta u$, and $\delta\phi$) are introduced to the Euler equations.
+By linearizing and combining the equations, we obtain
+
+\begin{equation}
+  \frac{\partial^{2}\delta\rho}{\partial t^{2}} - c_{s}^{2}\frac{\partial^{2}\delta\rho}{\partial x^{2}} - 4\pi G\rho_{0}\delta\rho = 0
+\end{equation}
+
+Comparing this equation to the general formula of a wave equation, we find the same with an additional term of $-4\pi G\rho_{0}\delta\rho$.
+Thence we use a planar wave ansatz $\sim\exp(i(kx-\omega t))$ and recover the dispersion relation
+
+\begin{equation}
+  \omega^{2} = c_{s}^{2}k^{2} - 4\pi G\rho_{0}
+\end{equation}
+
+Here this additional term has profound ramifications.
+Since this argument is negative, it is possible for $\omega^{2}$ to become negative for some $k$.
+The planar wave consequently has a real exponent $i\omega$, which means that the oscillatory behavior is replaced by exponential growth.
+Therefore any perturbation with k leading to a $\omega^{2}<0$ grows in amplitude, increasing the density more and more.
+
+This happens when the wavenumber $k$, or rather the wavelength $\lambda = 2\pi/k$, exceeds the critical value, known as \textit{Jeans length}
+
+\begin{equation}
+  \lambda_{J} = c_{s}\sqrt{\frac{\pi}{G\rho_{0}}}
+\end{equation}
+
+Any scale larger than the Jeans length is therefore gravitationally unstable.
+\\[6pt]
+%
+\citet{Shu_paper} did a similar analysis of a core collapse using an expansion wave solution.
+The molecular core has initially a singular isothermal sphere profile as in \eqnref{eq:SIS}.
+He found that if a perturbation occurs, the sphere starts to collapse from the center outwards, forming a propagating collapse front which moves with the sound speed $c_{s}$.
+Since the sphere was in hydrostatic equilibrium at first, it remains static until the collapse front arrives.
+This way shell by shell collapses to the center core within a free fall time.
+
+\begin{equation}
+  t_{ff} = \frac{\lambda_{J}}{c_{s}} = \sqrt{\frac{\pi}{G\rho_{0}}}
+\end{equation}
+
+The core thus grows with a constant mass accretion rate of $\dot{M}_{acc} = \frac{c_{s}^{3}}{G}$.
+
+Typical numbers for molecular cores are $10^{3}\,\text{cm}^{-3}$ for number density, $10\,\text{K}$ for temperature and a sound speed of around $0.2\,\text{km}/\text{s}$.
+A Jeans length can also be translated into a critical mass.
+
+\begin{equation*}
+  \lambda_{J} \sim 1.0\,\text{pc}\,\,\big(\frac{T}{10\,\text{K}}\big)^{\frac{1}{2}}\,\big(\frac{n}{10^{3}\,\text{cm}^{-3}}\big)^{-\frac{1}{2}} \quad\text{ translates to }\quad M_{J} \sim 26\,\text{M}_{\odot}\,\,\big(\frac{T}{10\,\text{K}}\big)^{\frac{3}{2}}\,\big(\frac{n}{10^{3}\,\text{cm}^{-3}}\big)^{-\frac{1}{2}}
+\end{equation*}
+
+As the density in the core rises, its temperature stays roughly the same as long as it remains optically thin to the cooling radiation.
+As a result, the Jeans length and critical mass decrease and the collapsing object slowly~\footnote{for human standards, for astronomical standards a free fall time is actually rather quick} fragments into smaller and smaller pieces.
+
+An important conclusion to draw from this is that no minimal limit for star masses has yet been introduced.
+
+% Larson's cores ----------------------------------------------------------------------------------------
+\subsection{Larson's cores}
+\label{subsec:Larson_cores}
+
+Many different numerical experiments of protostar collapse in molecular cores have shown that the core profile indeed corresponds to the one of a singular isothermal sphere in the early stages of collapse.
+\citet{Larson_thesis} investigated in his PhD thesis this topic in great detail, numerically as well as analytically.
+In an successive paper \citet{Larson_paper} postulated that due to the self--similar behavior of the Lane--Emden equation, the gravitational collapse proceeds as such.
+A dens core forms in the center of the sphere, which has come to be known as the \textit{first Larson core}.
+
+Subsequently the core steadily and isothermally grows in density until the medium becomes optically thick to its cooling radiation, meaning the density reaches the threshold beyond which photons are trapped inside the core and begin to heat up their surroundings.
+
+This threshold is called opacity limit, where the optical depth $\tau \simeq 1$.
+Optical depth describes the measure of impenetrability to radiation due to absorption and scattering processes along a path through a medium and is defined as
+
+\begin{equation}
+ \mathrm{d}\tau = \kappa_{R}\rho\mathrm{d}x
+\end{equation}
+
+where $\rho$ is the gas density, $\mathrm{d}x$ the infinitesimal path length through the medium, and $\kappa_{R}$ the Rosseland opacity average according to \citet{Davisetal}.
+The state of the gas, i.e. its temperature, the dust grain size in the gas, and the radiation's wave frequency are all components determining this opacity.
+
+The opacity limit finally introduces a physical length scale for the gravitational collapse of protostellar cores.
+It can also be translated to a threshold density for a core which is optically thick to radiation.
+
+\begin{equation}
+ \lambda \sim \frac{c_{s}^{2}\kappa_{R}}{G} \sim 4 \text{AU} \qquad \Rightarrow \qquad \rho \sim 10^{-13} \text{g/cc}
+\end{equation}
+
+Beyond the threshold the second phase of star formation is initiated, in which the core compression approximately becomes adiabatic.
+The core density still rises, but simultaneously the core starts to heat up.
+Consequently the internal pressure becomes sufficient enough to decelerate and even stop the collapse at the center, while the outer material is still getting accreted isothermally.
+Due to the density contrast of the now hydrostatically equilibrated core and the infalling shells, a shock wave can form.
+While the mass linearly grows, gravity causes the core to slowly contract again.
+
+When the core reaches a temperature of around $10^{3}\,\text{K}$ the H$_{2}$ molecules begin to dissociate.
+Due to the energy consumption which goes into the molecule dissociation, the collapse turns quasi--isothermal again.
+When all the molecules have been disbanded the \textit{second Larson core} forms.
+Once again the core pressure becomes sufficient enough to produce a core in hydrostatic equilibrium at around $10^{4}\,\text{K}$.
+Similarly to the first time, another shock front arises, when the infalling material crashed onto it.
+
+When all the material has fallen onto the second core and its density and temperature have reached stellar values, the star initiates nuclear fusion.
+The evolutionary sequence described by Larson is of course only approximative and does not account for electro--magnetic effects, like ambipolar diffusion, influences from dust, rotation, or other 3D effects.
+
+
+% ----------------------------------------------------------------------------------------
+\section{Radiative transfer}
+\label{sec:RadiativeTransfer}
+At the turn of the 20th century M. Planck, A. Einstein, L. de Broglie, and many other physicists began to realize that the classical notions 'particle' or 'wave' on their own fail to fully explain quantum--scale objects.
+This fact is referred to as particle--wave duality and justifies the idea of describing radiation as a highly relativistic fluid of particles with zero rest mass.
+Hence, we can precede in a similar way as in \secref{sec:HydrodynamicEquations} and use a microscopic description of the fluid given by a photon distribution function and infer macroscopic behavior and quantities by taking moments.
+Yet, the velocity of a photon is a universal constant $c$, and position and momentum are connected by Heisenberg's uncertainty principle; thus, we cannot use $\textbf{v}$ as a phase--space variable and have to fall back on describing the state of a photon with its frequency $\nu$ and direction it travels $\hat{\textbf{n}}$ instead.
+
+% Intensity ----------------------------------------------------------------------------------------
+This leads to the definition of the specific radiation intensity, conveniently expressed in terms of the photon distribution function; see Appendix~\ref{AppendixB} for derivation.
+\begin{equation}
+  I_{\nu}(\textbf{x}, \hat{\textbf{n}}, t) = \frac{h^{4}\nu^{3}}{c^{2}} f(\textbf{x}, \hat{\textbf{n}}, \nu, t)\,.
+\label{eq:spec_intensity}
+\end{equation}
+In some literatures, like \citet{Rybicki_Lightman}, the specific radiation intensity is rather defined over simple dimensional arguments
+\begin{equation}
+ \mathrm{d}E = I_{\nu}\,\mathrm{d}S\,\mathrm{d}t\,\mathrm{d}\nu\,\mathrm{d}\Omega
+\label{eq:dE_intensity}
+\end{equation}
+
+
+% Moments ----------------------------------------------------------------------------------------
+The moments of the specific radiation intensity over solid angle~\footnote{moments of the specific radiation intensity over solid angle and frequency are self--consistently defined as \begin{align*}
+															E_{\text{rad}}(\textbf{x}, t) = \int_{\nu} E_{\nu}\,\mathrm{d}\nu \,; \quad\qquad
+															\textbf{F}_{\text{rad}}(\textbf{x}, t) = \int_{\nu} \textbf{F}_{\nu}\,\mathrm{d}\nu \,; \quad\qquad
+															\mathbb{P}_{\text{rad}}(\textbf{x}, t) = \int_{\nu} \mathbb{P}_{\nu}\,\mathrm{d}\nu
+														       \end{align*}
+} are
+\begin{align}
+  cE_{\nu} &= \int_{4\pi} I_{\nu}(\textbf{x}, \hat{\textbf{n}}, t)\,\mathrm{d}\Omega \label{eq:spec_energy} \\
+  \textbf{F}_{\nu} &= \int_{4\pi} \hat{\textbf{n}}\,I_{\nu}(\textbf{x}, \hat{\textbf{n}}, t)\,\mathrm{d}\Omega \label{eq:spec_flux} \\
+  c\mathbb{P}_{\nu} &= \int_{4\pi} \hat{\textbf{n}}\otimes\hat{\textbf{n}}\,I_{\nu}(\textbf{x}, \hat{\textbf{n}}, t)\,\mathrm{d}\Omega \label{eq:spec_press}
+\end{align}
+
+% Radiative transfer equation (homogeneous) ----------------------------------------------------------------------------------------
+Given the relation between the specific radiation intensity and the photon distribution function (from \eqnref{eq:spec_intensity}), the Boltzmann equation reads
+
+\begin{equation}
+  \frac{\partial I_{\nu}}{\partial t} + c\cdot\hat{\textbf{n}}\cdot\nabla I_{\nu} = 0
+\end{equation}
+
+where we disregarded the source term at first.
+Commonly this equations is known as the \textit{radiative transfer} equation.
+\\[6pt]
+%
+% Source terms ----------------------------------------------------------------------------------------
+To include the source term, we consider $\Delta I_{\nu}$ a change of intensity $I_{\nu}$ along the direction of propagation of a light ray through a medium laced with dust grains.
+The radiation along this path over a small distance $\Delta s$ can change through several interaction processes between the photons and the dust grains.
+
+Absorption being an example of such a process, in which radiative energy from photons is used to heat up the dust.
+Another 'loss of energy'~\footnote{not meaning a violation of the first law of thermodynamics, but rather an idiomatic expression for the transformation of energy, which is afterwards not contributing to the process in focus.} represents the scattering process, in which a shortly induced excited grain state decays and re--emits a photon.
+The photon is usually re--emitted in a deflected angle of the same frequency which can be externally observed with a slight Doppler shift.
+
+We assume all intensity--diminishing effects behave similarly and are proportional to $\Delta s$.
+The removal of photons should also vary linearly with the intensity $\Delta I_{\nu}$ itself.
+Moreover, it should be proportional to a given total mass density of the gas--dust admixture.
+Depending on the incident radiation frequency and the grain size, it is more or less likely that a photon interacts with the dust.
+This effect summarized by the opacity parameter $\kappa_{\nu}$.
+Thus, the negative contribution amounts to $-\kappa_{\nu}\rho I_{\nu}\Delta s$.
+
+Note that $\kappa_{\nu}$ has units of $cm^2\,g^{-1}$, while $\rho$ has the units of $g\,cm^{-3}$.
+The inverse product of both is the photon mean free path $\lambda_{\nu} \equiv \alpha_{\nu}^{-1} \equiv (\kappa_{\nu}\rho)^{-1}$ with units of $cm$.
+$\alpha_{\nu}$ is called the absorption coefficient.
+The fraction of the traveled path $\Delta s$ to this mean free path is called the optical depth $\Delta\tau_{\nu} \equiv \alpha_{\nu}\Delta s$.
+It is a property of the medium in which the radiation travels and is often used to model dust effects without including actual particles in simulations.
+If the optical depth is $<1$ the medium is called \textit{optically thin}, whereas if $\tau_{\nu}>1$ it is called \textit{optically thick}.
+
+An increase of radiation along its path is of course also possible.
+An example of such a process is thermal emission, in which heated dust grains emit photons to cool down, usually in the infrared spectrum.
+
+We summarize all growth contributions in the definition of the emissivity $j_{\nu}$.
+Since $I_{\nu}$ is defined per unit area, we can describe the positive change simply by $j_{\nu}\Delta s$.
+
+% Radiative transfer equation (inhomogeneous) ----------------------------------------------------------------------------------------
+This is summed up to
+
+\begin{equation}
+  \Delta I_{\nu} = -\kappa_{\nu}\rho I_{\nu}\Delta s + j_{\nu}\Delta s
+\label{eq:Source_term_derivation}
+\end{equation}
+
+By division of $\Delta s$, we obtain the inhomogeneous radiation transfer equation in the infinitesimal limit
+
+\begin{equation}
+  \frac{\mathrm{d}I_{\nu}}{\mathrm{d}s} \equiv \frac{1}{c}\frac{\partial I_{\nu}}{\partial t} + \hat{\textbf{n}}\cdot\nabla I_{\nu} = j_{\nu} - \alpha_{\nu}I_{\nu}
+\label{eq:Radiative_transfer}
+\end{equation}
+
+where $\frac{\mathrm{d}}{\mathrm{d}s} \equiv \frac{1}{c}\frac{\partial}{\partial t} + \hat{\textbf{n}}\cdot\nabla$ denotes the Lagrangian--like derivative, analogously to the hydrodynamical case.
+It actually denotes an absolute derivative of $I_{\nu}$ with respect to path length $s$ along a ray, which is a geodesic in spacetime.
+Despite using a specific example to motivate this derivation, this equation holds generally and characterizes the radiation transport through a medium with sink and source effects.
+\\[6pt]
+%
+% Radiative equation moments ----------------------------------------------------------------------------------------
+To describe further conservation properties, we again take moments of \eqnref{eq:Radiative_transfer}.
+This time, we do not require them to be taken over collisional invariants, but take angular moments $\int_{4\pi}\mathrm{d}\Omega$ and $\int_{4\pi}\hat{\textbf{n}}\,\mathrm{d}\Omega$; again see Appendix~\ref{AppendixB} for derivation.
+
+\begin{align}
+  \frac{\partial E_{\nu}}{\partial t} \,+\, \nabla\cdot\textbf{F}_{\nu} &= 4\pi j_{\nu}\,-\, \alpha_{\nu}cE_{\nu} \label{eq:Radiative_energy_moment} \\
+  \frac{1}{c^{2}}\frac{\partial\textbf{F}_{\nu}}{\partial t} \,+\, \nabla\cdot\mathbb{P}_{\nu} &= - \frac{\alpha_{\nu}\textbf{F}_{\nu}}{c} \label{eq:Radiative_flux_moment}
+\end{align}
+
+These equations connect the radiation specific energy density to the radiation flux and pressure tensor.
+The first equation describes the radiation energy conservation, to which both emissivity as well as absorption/scattering processes contribute.
+This is not so in the second, momentum conservation equation.
+There is no momentum contribution from $j_{\nu}$, since we assumed isotropy of the source emissivity and every term is canceled by its contribution from the opposite direction.
+
+Numerically solving these equations for the whole frequency spectrum would be computationally expensive.
+An analytical integration over the whole spectrum is therefore useful.
+If an investigation does require a distinction of different kinds of photons, a compromising procedure is to discretize the spectrum into different \textit{groups of photons}.
+Those groups follow separate sets of moment equations, which means that the computational effort rises with each photon group.
+
+Integral averages of radiation energy density, flux, and pressure can be simply substituted with their average values $E_{rad}$, $\textbf{F}_{rad}$, and $\mathbb{P}_{rad}$ on the given frequency range individual to each photon group.~\footnote{for simplicity we do not use indices for different photon groups and continue as if we had only a single group}
+The opacity frequency--spectrum for real materials is very complicated and must be modeled carefully.
+Therefore the absorption coefficients should be weighted differently in averages, depending in which moment equation they appear.
+
+There are several approximations for the mean absorption coefficients, solving different regimes, all with their own advantages and drawbacks.
+Two very popular methods are the \textit{Rosseland mean} $\alpha_{R}$ and \textit{Planck mean} $\alpha_{P}$.
+
+\begin{align}
+  \frac{1}{\alpha_{R}} &= \frac{\int_{0}^{\infty}\frac{1}{\alpha_{\nu}}\frac{\partial B_{\nu}}{\partial T}\mathrm{d}\nu}{\int_{0}^{\infty}\frac{\partial B_{\nu}}{\partial T}\mathrm{d}\nu} \\
+  \alpha_{P} &= \frac{\int_{0}^{\infty}\alpha_{\nu}B_{\nu}\mathrm{d}\nu}{\int_{0}^{\infty}B_{\nu}\mathrm{d}\nu}
+\end{align}
+
+where $B_{\nu}$ is the intensity of blackbody radiation, discussed in the next \secref{subsec:LTE}.
+Using these means in the frequency--integrated moment equations implies that one assumes the spectral energy distribution of a Planckian, and also that the radiation together with the fluid medium is close to LTE.
+This is only possible in optically thick regions, where the mean free path of photons is very short.
+They have the advantage that in LTE both can be computed as a function of the local state variables once and for all, as $B_{\nu}$ is a function of temperature, while $\alpha_{\nu}$ depends on density and temperature.
+
+% ----------------------------------------------------------------------------------------
+\subsection{Thermal radiation}
+\label{subsec:LTE}
+
+Once again analogously to the hydrodynamical equations, the moment hierarchy for the radiative transfer equation can be infinitely continued and has to be closed with some kind of approximation.
+
+To find such a closure relation, we look at a radiation field in LTE.
+Since blackbody radiation meets the thermal equilibrium condition by its very definition, we know that radiation intensity is a function depending on only one state variable, the absolute temperature: $I_{\nu} = B_{\nu}(T)$.
+This function is determined by the well--known Planck's law.
+
+\begin{equation}
+  B_{\nu}(T) = \frac{h\nu^{3}}{c^{2}} \frac{2}{e^{\frac{h\nu}{k_{B}T}} - 1}
+\end{equation}
+
+This can also be shown by using the radiation intensity definition from \eqnref{eq:spec_intensity}, and recalling that photons are bosons following the Bose--Einstein statistics $N=2 / (e^{\frac{h\nu}{k_{B}T}} - 1)$, such that the photon distribution function is $f\sim N$ per unit 'Planck volume' $h^{3}$.
+
+If dust or gas interacts with the radiation and is in LTE, by definition their source and sink terms in the radiative transfer equation must cancel.
+Then the emitted radiation is also in LTE and we recover Kirchhoff's law.
+
+\begin{equation}
+  j_{\nu} = \alpha_{\nu}B_{\nu}
+\end{equation}
+
+This is the condition for \textit{thermal radiation}, which is radiation emitted by materials in LTE.
+We also recall that integrals over functions like $B_{\nu}$ result in factors proportional to the forth Riemann zeta function.
+With \eqnref{eq:spec_energy} and averaging over a certain frequency--range $\Delta\nu$, we recover the Stefan--Boltzmann law
+
+\begin{equation}
+  S \equiv \int_{\Delta\nu}\int_{4\pi}j_{\nu}\mathrm{d}\nu\mathrm{d}\Omega = \alpha_{P}caT^{4}
+\end{equation}
+
+where $S$ is the angular moment of the frequency--integrated emissivity and $a$ the radiation constant.
+The Planck mean $\alpha_{P}$ is only a valid approximation if the photon group covers a sufficiently large frequency range $\Delta\nu$.
+Commonly this approximation is applied to a photon group in the infra--red range coupling to dust grains, thereby treating dust as a sub--grid model.
+
+% ----------------------------------------------------------------------------------------
+\subsection{Coupling to hydrodynamics}
+\label{subsec:Coupling_to_HD}
+
+The radiative transfer equation and its moments does describe the propagation of the light in a fluid medium, but the effect of the radiation on the dynamics of the gas is not yet accounted for.
+To that end, we have to couple the radiation equations to the Euler equations.
+This is done over the source and sink terms.
+For every absorbed, scattered and re--emitted photon, there must be a corresponding amount of momentum and energy missing from the fluid.
+The variable susceptibility of the gas to certain frequencies was already treated in the radiative transfer equations with the absorption coefficient $\alpha_{\nu}$.
+So all there is left to do is to obey the laws of physics~\footnote{the first law of thermodynamics to be precise}.
+Thus the amount of energy from the source and sink terms have to be frequency--integrated and added to the Euler equations with reversed sign.
+
+\begin{equation}
+  \Gamma = \int_{0}^{\infty}\alpha_{\nu}cE_{\nu}\mathrm{d}\nu \qquad\text{ and }\qquad \Lambda = \int_{0}^{\infty}\int_{4\pi}j_{\nu}\mathrm{d}\Omega\mathrm{d}\nu
+\end{equation}
+
+The frequency--integrated is source term $\Gamma$ is called \textit{heating function}, while the total sink term $\Lambda$ is contrarily called the \textit{cooling function}.
+The Euler equation addressing the energy equation therefore becomes
+
+\begin{equation}
+  \frac{\partial E}{\partial t} + \nabla \cdot (E + \mathbb{P}) \textbf{u} = \rho \textbf{a} \textbf{u} + \Gamma - \Lambda
+\end{equation}
+
+This way the energy components of the gas and the radiation are linked through the source and sink terms in their moment equations.
+Concerning the momentum exchange, the same method is applied with the sole difference that the radiative moment flux equation only has a source and no sink term.
+This is due to the fact that emitted radiation field is always isotropic.
+Consequently the radiation force $\mathcal{F}$ is the momentum gained through absorption.
+
+\begin{equation}
+  \mathcal{F} = \int_{0}^{\infty}\frac{\alpha_{\nu}F_{\nu}}{c}\mathrm{d}\nu
+\end{equation}
+
+Again to comply with momentum conservation the same term has to be inserted into the momentum Euler equation with opposite sign
+
+\begin{equation}
+  \frac{\partial (\rho\textbf{u})}{\partial t} + \nabla\cdot (\rho(\textbf{u} \otimes \textbf{u}) + \mathbb{P}) = \rho \textbf{a} + \mathcal{F}
+\end{equation}
+
+It is worth mentioning that even though this coupling of gas and radiation dynamics seems simple, many complicated, atomic processes play a part in it.
+The parameter summarizing all these influences is the absorption coefficient $\alpha_{\nu}$.
+It depends on the gas density as well as its temperature.
+Depending on these gas states different processes dominate, such as (photo--)ionization, recombination, excitation, and fine--structure transitions just to name a few.
+\\[6pt]
+%
+Since radiation propagates with the speed of light, the important treatment of relativity was omitted.
+The opacity variables should be in fact computed in the comoving frame, moving with the fluid system.
+This means that the dust is modeled having always the same velocity as the gas.
+The radiation on the other hand is computed in the laboratory frame.
+This causes Doppler effects due to the relative motions between the different coordinate systems.
+The work done by the radiation force consequently includes an anisotropic component from the source term.
+Thus the presented equations should have relativistic corrections of the order $v/c$.
+A detailed discussion of a relativistic description of the microscopic radiative processes in the comoving frame can be found in \citet{Mihalas}.
+
+% ----------------------------------------------------------------------------------------
+\subsection{Diffusive limit}
+\label{subsec:Diffusion_limit}
+
+The LTE approximations for the moment radiation equations lay the ground work for one of two physically relevant limits, which have to be correctly resolved in numerical simulations.
+Applying them on \eqnref{eq:spec_energy} and \eqref{eq:spec_press}, we obtain a simple relation between the radiation pressure and the radiation energy density
+
+\begin{equation}
+  \mathbb{P}_{\nu} = \frac{E_{\nu}}{3}\mathbb{I}
+\label{eq:LTE_radiation_press}
+\end{equation}
+
+This is called \textit{Eddington closure approximation} and holds for any isotropic radiation distribution.
+
+In the radiation's steady state for which all derivatives with respect to time vanish, we recover the \textit{diffusion limit} with the LTE condition $\tau \gg 1$.
+Therefore the moment equation for the radiation flux reads
+
+\begin{equation}
+  \nabla\cdot\mathbb{P}_{\nu} = -\frac{\alpha_{R}}{c}\textbf{F}_{\nu}
+\end{equation}
+
+Plugging in \eqnref{eq:LTE_radiation_press} and integrating over the whole frequency--range yields
+
+\begin{equation}
+  \textbf{F} \simeq -\frac{c\lambda_{R}}{3} \nabla E
+\end{equation}
+
+Now the diffusive nature in this limit becomes evident.
+Replacing the flux term \eqnref{eq:Radiative_energy_moment}, we get a parabolic partial differential equation of the form of a diffusion equation with diffusive coefficient $c\lambda_{R}/3$.
+If the source and sink terms can be neglected temporarily, this diffusion equation describes the radiation as a wave spreading according to $x \sim \sqrt{ct\lambda_{R}/3}$.
+This can lead to some unphysical propagation speeds, if e.g., $ct/\lambda_{R} < 1$ and the LTE condition is not fulfilled, which can be related to the fact that radiation transport in reality not diffusive and the flux not limited.
+It is only valid as long as the photons' mean free path $\lambda_{R}$ is small, such that $\vert\textbf{F}\vert \ll cE$ and the radiation is quickly relaxed into LTE.
+
+The diffusion limit can already be used to construct a closure relation.
+By limiting the flux such that it recovers the appropriate limit for given conditions, be it optically thick or optically thin surroundings, a working radiation transfer model can be recovered.
+With this closure approximation method arise some advantages, such as its simplicity and possibility to combine with implicit time stepping methods.
+A big disadvantage however is the modeling of the flux direction which points in the direction of the radiation energy gradient.
+Due to its diffusive behavior the casting of shadows from optically thick regions is impossible, yet an important physical effect in the formation of stars.
+
+The diffusive limit still holds without perfect LTE.
+This can be demonstrated by introducing a slight anisotropy to the Planckian and writing the radiative transport equation as an expansion in this small anisotropy parameter.
+A following Chapman--Enskog--like analysis would then yield the same result.
+Thus, slight deviations from thermal equilibrium are still relatively well described in the diffusive limit.
+
+% ----------------------------------------------------------------------------------------
+\subsection{Free--streaming limit}
+\label{subsec:Free_streaming_limit}
+
+If the optical depth approaches the opacity limit $\tau \simeq 1$ and $\vert\textbf{F}\vert \simeq cE$, the photon mean free path becomes larger and unless flux limiters are used, the fluid--radiation system might be far from LTE.
+We then move into the \textit{free--streaming limit} where the isotropy in angular space is not given and provides flux comparable to the energy density.
+The radiation is hence streaming freely in the direction of the flux \textbf{n} and the energy moment equation for the radiation simplifies to
+
+\begin{equation}
+  \frac{\partial E_{\nu}}{\partial t} \,+\, c\nabla\cdot\hat{\textbf{n}}E_{\nu} = 4\pi j_{\nu}\,-\, \alpha_{\nu}cE_{\nu}
+\end{equation}
+
+which is a simple, linear advection equation apart from the source terms (hence hyperbolic).
+
+% ----------------------------------------------------------------------------------------
+\subsection{Preservation of the asymptotic limits}
+\label{subsec:Asymptotic_limits}
+
+It is now clear that models of radiative transfer have to provide an accurate treatment of both previously mentioned limits.
+\citet{streaming_vs_trapped} proposed a methodology in the context of neutrino transport, which can similarly be applied to photons for our purposes.
+In this procedure, two photon groups on the same frequency range are added, splitting the radiation energy into two components $E=E_{t}+E_{s}$.
+$E_{t}$ belongs to the \textit{trapped} photon group, whereas $E_{s}$ describes the \textit{streaming} photon group.
+The difference between them is that radiation flux for the trapped photons is assumed to be strictly zero, according to the asymptotic limit of $\lambda_{R}\to 0$.
+These are then handled as separate groups with the exception that during every computational time step, their partition is updated; see \citet{Joki_IR}.
+\\[6pt]
+%
+Another important approximation which should be able to recover both asymptotic limits is the closure relation.
+The previously mentioned closures have been primarily based on the diffusion limit.
+
+However, the so--called M1 approximation for the pressure tensor provides a closure relation, which takes both limits into account.
+The frequency--integrated pressure tensor is herein written as $\mathbb{P} = E\mathbb{D}$, where $\mathbb{D}$ is called the \textit{Eddington tensor}.
+It assumes either the form of the identity matrix $\mathbb{D}\to\mathrm{I}/3$ in the diffusion limit, or $\mathbb{D}\to\hat{\textbf{n}}\otimes\hat{\textbf{n}}$ in the free--streaming limit.
+This motivates the ansatz as linear combination of both.
+
+\begin{equation}
+  \mathbb{D} = \frac{1-\chi}{2}\mathbb{I} + \frac{3\chi-1}{2}\hat{\textbf{n}}\otimes\hat{\textbf{n}}
+\end{equation}
+
+where the direction of propagation $\hat{\textbf{n}}=\textbf{F}/\vert\textbf{F}\vert$ and the Eddington factor
+
+\begin{equation}
+  \chi = \frac{3+4f^{2}}{5+2\sqrt{4-3f^{2}}}
+\end{equation}
+
+depends on the reduced flux
+
+\begin{equation}
+  f = \frac{\vert\textbf{F}\vert}{cE}
+\end{equation}
+
+\citet{M1_approx} first introduced this approximation, based on the idea that the radiation is a Lorentz--boosted Planckian, symmetric around the flux direction.
+It reproduces both limiting cases in the asymptotic limit of $f\to0$ for the diffusive limit and the free streaming case for $f\to1$.
+Since it leaves the moment flux equation hyperbolic, another advantage lies in the integrability into the Godunov scheme discussed in the next \chapref{Chapter3}.

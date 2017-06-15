@@ -1,0 +1,306 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[
+10pt,
+english,
+singlespacing,
+%liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
+%toctotoc, % Uncomment to add the main table of contents to the table of contents
+%nohyperref, % Uncomment to not load the hyperref package
+headsepline,
+]{MastersDoctoralThesis}
+
+%\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage{lmodern}%, palatino} % Use the Lmodern font by default
+%\usepackage{titlesec}
+%\titleformat{\chapter}[display]
+%        {\normalfont\Large\centering}{\chaptertitlename\ \thechapter}{0pt}{\Large\uppercase}
+%\titleformat{\section}{\large\bfseries}{\thesection}{1em}{palatino}
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+%\usepackage{C:/Users/Phil/Desktop/thesis/cyrillic}
+%\usepackage{/home/dephil/master/thesis/cyrillic}
+\usepackage{cyrillic}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{parskip}
+\parskip = 0pt
+\usepackage{setspace}
+\usepackage{mathtools}
+\usepackage{MnSymbol}
+\usepackage{lscape}
+\usepackage{adjustbox}
+\usepackage{footnote}
+\usepackage{hyperref}
+\usepackage{placeins}
+%\usepackage{wrapfig}
+
+\usepackage[backend=bibtex,style=authoryear-icomp,natbib=true]{biblatex} % User the bibtex backend with the authoryear citation style (which resembles APA)
+
+\addbibresource{example.bib} % The filename of the bibliography
+
+\usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
+
+%----------------------------------------------------------------------------------------
+%	MARGIN SETTINGS
+%----------------------------------------------------------------------------------------
+
+\geometry{
+	paper=a4paper, % Change to letterpaper for US letter
+	inner=2.0cm, % Inner margin
+	outer=3.3cm, % Outer margin
+	bindingoffset=2cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	%showframe,% show how the type block is set on the page
+}
+
+%----------------------------------------------------------------------------------------
+%	THESIS INFORMATION
+%----------------------------------------------------------------------------------------
+
+\thesistitle{Radiation hydrodynamics of star formation: Infrared radiation feedback in molecular clouds} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
+\supervisor{Prof. Dr. Romain \textsc{Teyssier}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
+\author{Philipp \textsc{Denzel}} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
+\addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
+
+\subject{Computational Astrophysics} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
+\keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
+\university{\href{http://www.uzh.ch}{University of Zurich}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
+\department{\href{http://www.ics.uzh.ch}{Institute for Computational Science}} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
+\group{} % Your research group's name and URL, this is used in the title page, print it elsewhere with \groupname
+\faculty{} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
+
+\hypersetup{pdftitle=\ttitle} % Set the PDF's title to your titles
+\hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
+\hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+
+% Define some commands to keep the formatting separated from the content
+% \newcommand{\keyword}[1]{\textbf{#1}}
+% \newcommand{\tabhead}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+% \newcommand{\file}[1]{\texttt{\bfseries#1}}
+% \newcommand{\option}[1]{\texttt{\itshape#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\figfigref}[2]{Figures~\ref{#1}~and~\ref{#2}}
+\newcommand{\eqnref}[1]{Eq.~\eqref{#1}}
+\newcommand{\chapref}[1]{Chapter~(\ref{#1})}
+\newcommand{\secref}[1]{Section~(\ref{#1})}
+\newcommand{\cyrrm}{\fontencoding{T1}\selectfont\textcyrup}
+\newcommand{\cyrit}{\fontencoding{T1}\selectfont\textcyrit}
+\newcommand{\cyrsl}{\fontencoding{T1}\selectfont\textcyrsl}
+\newcommand{\cyrsf}{\fontencoding{T1}\selectfont\textcyrsf}
+\newcommand{\cyrbf}{\fontencoding{T1}\selectfont\textcyrbf}
+\newcommand{\cyrsc}{\fontencoding{T1}\selectfont\textcyrsc}
+
+\begin{document}
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\textsc{\LARGE \univname}\\[1.0cm] % University name
+
+\includegraphics[width=0.35\textwidth]{logo}\\[1.0cm] % University/department logo
+
+\textsc{\Large Master thesis}\\[1.0cm] % Thesis type
+
+\hrule\vspace{0.4cm} % Horizontal line
+\doublespacing {\huge \ttitle}\\[0.4cm] % Thesis title
+\hrule\vspace{1.5cm} % Horizontal line
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+{\authorname} % Author name - remove the \href bracket to remove the link
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+{\supname} % Supervisor name - remove the \href bracket to remove the link
+\end{flushright}
+\end{minipage}\\[3cm]
+
+{\large \today}\\[4cm] % Date
+%\includegraphics{logo} % University/department logo - uncomment to place it
+
+\vfill
+\end{center}
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	INFO PAGE
+%----------------------------------------------------------------------------------------
+
+\thispagestyle{empty}
+
+\begin{flushleft}
+\noindent\textbf{Philipp Denzel}\\
+Institute for Computational Science\\
+University of Zurich\\
+Winterthurerstrasse 190\\
+CH-8057 Zurich\\
+Switzerland\\
+phdenzel@physik.uzh.ch
+\end{flushleft}
+\newpage
+\thispagestyle{empty}
+\mbox{}
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+ \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
+ %An abstract should explain the task, method and results with only a few sentences
+ Stars are probably the most studied astronomical objects.
+ This is partially due to the fact that we have one right in our neighborhood, partially because almost all the light we see in the Universe comes from them either directly or indirectly through thermal emission from the surrounding gas and dust heated by the stars.
+
+ Throughout the stars' life cycle, their structure and the physics involved in the internal processes are very well understood.
+ However, the formation of stars has yet eluded direct astronomical observations and is therefore not as well comprehended.
+
+ This is where computational simulations are helpful.
+ Without any means of performing experiments or observations, theoretical models of star formation can be tested from first principles.
+
+ In this thesis, I presents analytical models and numerical simulations with the purpose of exploring the influence of radiation onto star formation.
+ Special focus is laid on the interaction of infrared radiation with molecular clouds, the birth place of stars.
+
+ It has been found that infrared radiation has a great effect on the gas in the near vicinity where the protostars formed.
+ The radiation transfers energy to the gas, which causes it to heat and consequently to fragment.
+ Moreover, the radiation exerts a moderate force on the gas around it.
+ This effect is not able to fully stop its gravitational collapse, but seems to delay the process.
+ With more distance from the protostar the radiation's influence weakens, which leads to believe that on larger scales other kinds of radiation might play a dominating role.
+\end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
+
+\begin{acknowledgements}
+ \addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the table of contents
+ \vspace{1cm}
+ First I want to thank Romain Teyssier for being an excellent supervisor and teacher.
+ He could always spend 'a minute' of his time when there was a problem and has a way of making even the most difficult topics seem simple.
+
+ Special thanks also go to Andreas Bleuler for the help in debugging at late evenings and whose work and advice I greatly profited from.
+
+ I would also like to thank Elena Gavagnin for her help in setting up the initial conditions for the simulated cloud and in the analysis of its star cluster, and for providing her data for comparison.
+ Thanks are also due to Pawel Biernacki whose programs produce the most marvelous movies.
+ Doug Potter is also owed a great deal of gratitude for helping with all server related problems and for maintaining the zbox, the super--computer which performed the simulations presented here.
+ Thanks to Rafael Souza Lima who is a great office companion and always up for an interesting discussion.
+ Another thanks to Mischa Knabenhans who fancies a game of pool after lunch as much as I do.
+ In general a special thanks to all the members of the Institute for Computational Science which have not been already mentioned by name, for just being how they are.
+
+ Most of all I want to thank my family for their constant support not only in becoming a scientist, but in all the things I do.
+
+\end{acknowledgements}
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+
+\tableofcontents % Prints the main table of contents
+
+\listoffigures % Prints the list of figures
+%\listoftables % Prints the list of tables
+
+%----------------------------------------------------------------------------------------
+%	ABBREVIATIONS
+%----------------------------------------------------------------------------------------
+%
+%\begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
+%
+%\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere\\
+%\textbf{WSF} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or\\
+%
+%\end{abbreviations}
+%
+%----------------------------------------------------------------------------------------
+%	PHYSICAL CONSTANTS/OTHER DEFINITIONS
+%----------------------------------------------------------------------------------------
+%
+%\begin{constants}{lr@{${}={}$}l} % The list of physical constants is a three column table
+%
+% The \SI{}{} command is provided by the siunitx package, see its documentation for instructions on how to use it
+%
+%	Speed of Light & $c_{0}$ & \SI{2.99792458e8}{\meter\per\second} (exact)\\
+%Constant Name & $Symbol$ & $Constant Value$ with units\\
+%
+%\end{constants}
+%
+%----------------------------------------------------------------------------------------
+%	SYMBOLS
+%----------------------------------------------------------------------------------------
+%
+%\begin{symbols}{lll} % Include a list of Symbols (a three column table)
+%
+%$a$ & distance & \si{\meter} \\
+%$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
+%Symbol & Name & Unit \\
+%
+%\addlinespace % Gap to separate the Roman symbols from the Greek
+%
+%$\omega$ & angular frequency & \si{\radian} \\
+%
+%\end{symbols}
+%
+%----------------------------------------------------------------------------------------
+%	DEDICATION
+%----------------------------------------------------------------------------------------
+%
+%\dedicatory{For/Dedicated to/To my\ldots}
+%
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+
+\pagestyle{thesis} % Return the page headers back to the "thesis" style
+
+% Include the chapters of the thesis as separate files from the Chapters folder
+% Uncomment the lines as you write the chapters
+
+\include{Chapters/Chapter1}
+\include{Chapters/Chapter2}
+\include{Chapters/Chapter3}
+\include{Chapters/Chapter4}
+%\include{Chapters/Chapter5}
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+
+\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+
+% Include the appendices of the thesis as separate files from the Appendices folder
+
+% Uncomment the lines as you write the Appendices
+
+\include{Appendices/AppendixA}
+\include{Appendices/AppendixB}
+\include{Appendices/AppendixC}
+\include{Appendices/AppendixD}
+\include{Appendices/AppendixE}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\printbibliography[heading=bibintoc]
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

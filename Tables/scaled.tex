@@ -1,0 +1,28 @@
+\begin{table}
+\begin{adjustbox}{width=1.8\textheight}
+\begin{tabular}{lcccccccccccccccc}
+\toprule
+Name ID & rt & pure\_hydro & isothermal & sink & merging [kyr] & L [AU] & levelmin & levelmax & ncpu & time [kyr] & duration [h] & N$_{sinks}$ & M$_{tot}$ [M$_{\odot}$] & M$_{sink}$ [M$_{\odot}$] & rt\_c\_fraction & rt\_nsubcycle \\
+\midrule
+scaled\_up\_iso & .false. & .true. & .true. & .true. & .false. & 799998.02 & 7 & 16 & 64 & 194.35 & 17.79 & 24 & 4.80 & 3.09 & .false. & .false. \\
+scaled\_up\_iso2 & .false. & .true. & .true. & .true. & .false. & 799998.02 & 7 & 16 & 64 & 214.96 & 23.98 & 60 & 32.20 & 6.83 & .false. & .false. \\
+scaled\_up\_iso\_merge & .false. & .true. & .true. & .true. & 5 & 799998.02 & 7 & 16 & 64 & 241.22 & 24.00 & 123 & 36.46 & 4.94 & .false. & .false. \\
+scaled\_up\_iso\_merge2 & .false. & .true. & .true. & .true. & 5 & 799998.02 & 7 & 16 & 64 & 228.59 & 23.95 & 83 & 26.38 & 3.79 & .false. & .false. \\
+scaled\_up\_plain & .false. & .true. & .true. & .false. & .false. & 799998.02 & 7 & 16 & 64 & 235.45 & 16.46 & 64 & 32.53 & 5.65 & .false. & .false. \\
+scaled\_up\_plain\_nosinks & .false. & .true. & .true. & .false. & .false. & 799998.02 & 7 & 16 & 64 & 91.92 & 3.41 & 0 & 0 & 0 & .false. & .false. \\
+scaled\_up\_nolacc & .false. & .true. & .true. & .false. & .false. & 799998.02 & 7 & 16 & 64 & 147.72 & 9.99 & 0 & 0 & 0 & .false. & .false. \\
+scaled\_up\_test & .false. & .true. & .true. & .true. & 5 & 799998.02 & 7 & 16 & 64 & 267.43 & 23.97 & 55 & 32.81 & 5.29 & .false. & .false. \\
+scaled\_up\_isoknee & .false. & .true. & .true.$^{\ast}$ & .false. & .false. & 799998.02 & 7 & 16 & 64 & 328.20 & 21.04 & 0 & 0 & 0 & .false. & .false. \\
+scaled\_up\_isoknee\_sink & .false. & .true. & .true.$^{\ast}$ & .true. & 5 & 799998.02 & 7 & 16 & 64 & 328.07 & 20.39 & 17 & 51.45 & 19.39 & .false. & .false. \\
+scaled\_up\_periodic & .false. & .true. & .true. & .true. & 5 & 799998.02 & 7 & 16 & 64 & 47.06 & 1.09 & 2 & 2.59 & 1.66 & .false. & .false. \\
+scaled\_up\_lmin8 & .false. & .true. & .true.$^{\ast}$ & .false. & .false. & 799998.02 & 8 & 16 & 64 & 279.69 & 27.19 & 0 & 0 & 0 & .false. & .false. \\
+scaled\_up\_msph & .false. & .true. & .true.$^{\ast}$ & .false. & .false. & 799998.02 & 7 & 16 & 64 & 296.34 & 23.94 & 0 & 0 & 0 & .false. & .false. \\
+scaled\_up\_msphws & .false. & .true. & .true.$^{\ast}$ & .true. & 5 & 799998.02 & 7 & 16 & 64 & 293.94 & 23.98 & 14 & 45.34 & 14.79 & .false. & .false. \\
+scaled\_up & .true. & .false. & .false. & .true. & 5 & 799998.02 & 7 & 16 & 256 & 278.84 & 24.00 & 2 & 41.82 & 28.74 & 1.4779e-03 & 100 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption[High--resolution runs]{Summary of all runs with a physical resolution of 12.21\,AU and a 100\,M$_{\odot}$ non--singular isothermal sphere profile.\\
+				        $^{\ast}$true up to $10^{10}$ H/cc, but with isotropic tail}
+\label{tab:scaled}
+\end{table}

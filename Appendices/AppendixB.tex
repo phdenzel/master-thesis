@@ -1,0 +1,87 @@
+% !TEX root = ../main.tex
+% Appendix B
+
+\chapter{Derivation of the radiative transfer equations} % Main appendix title
+
+\label{AppendixB} % For referencing this appendix elsewhere, use \ref{AppendixB}
+
+The radiative transfer equation \eqref{eq:Radiative_transfer} can easily be derived using a common form for the distribution function, applying it to photons, to describe the energy of an infinitesimal 6 dimensional phase--space volume element.
+\begin{align*}
+ \mathrm{d}N = f(\textbf{x}, \textbf{p}, t)\,\mathrm{d}^{3}x\,\mathrm{d}^{3}p
+\end{align*}
+
+We know that the momentum of photons $\textbf{p} = \frac{h\nu}{c}\hat{\textbf{n}}$ can be described by their frequency $\nu$ and the direction they travel $\hat{\textbf{n}}$, while their energy is given by $E = h\nu$.
+During their travel, photons, bundled as light rays, cover a certain surface area $\mathrm{d}S$ which determines the spatial volume element through the traveled path $c\mathrm{d}t$, if their curvature can be approximated to be radial, that is if the trajectory of photons is not bent.
+The individual volume elements of phase--space are thus
+\begin{align*}
+ \mathrm{d}^{3}x = \mathrm{d}S\,c\mathrm{d}t\,; \qquad\qquad \mathrm{d}^{3}p &= p^{2}\mathrm{d}p\,\mathrm{d}\Omega = \Big(\frac{h\nu}{c}\Big)^{2}\,\Big(\frac{h\mathrm{d}\nu}{c}\Big)\,\mathrm{d}\Omega\,; \qquad\qquad \mathrm{d}N = \frac{\mathrm{d}E}{h\nu}
+\end{align*}
+\vspace{-0.75cm}
+\begin{align*}
+ \Longrightarrow\qquad
+ \underbrace{\mathrm{d}N}_{\mathclap{\frac{\mathrm{d}E}{h\nu}}} &= f\,\overbrace{\mathrm{d}^{3}x}^{\mathclap{\mathrm{d}S\,c\mathrm{d}t}}\,\underbrace{\mathrm{d}^{3}p}_{\mathclap{(\frac{h\nu}{c})^{2}\,(\frac{h\mathrm{d}\nu}{c})\,\mathrm{d}\Omega}} \\
+ \Longleftrightarrow\qquad
+ \mathrm{d}E &= h\nu\,f\,\mathrm{d}S\,c\mathrm{d}t\,\Big(\frac{h\nu}{c}\Big)^{2}\,\Big(\frac{h\mathrm{d}\nu}{c}\Big)\,\mathrm{d}\Omega = \underbrace{\frac{h^{4}\nu^{3}}{c^{2}}f}_{\equiv I_{\nu}}\,\mathrm{d}S\,\mathrm{d}t\,\mathrm{d}\nu\,\mathrm{d}\Omega = I_{\nu}\,\mathrm{d}S\,\mathrm{d}t\,\mathrm{d}\nu\,\mathrm{d}\Omega
+\end{align*}
+where we used \eqnref{eq:dE_intensity} to identify the specific radiation intensity $I_{\nu}$.
+Since the distribution function and specific radiation intensity only scale differently with $\nu$, we can interchange them in the following considerations.
+Applying this relation to the Boltzmann equation \eqref{eq:BoltzmannEQ}, and ignoring the collision term for now, gives the radiative transfer equation in vacuum.
+\begin{align*}
+ &\frac{\partial f}{\partial t} + \overbrace{\textbf{v} }^{\mathclap{c\cdot\hat{\textbf{n}}}}\cdot\nabla f + \underbrace{ \dot{\textbf{v}} }_{\mathclap{\text{no acceleration for photons}}} \frac{\partial f}{\partial \textbf{v}} = 0 \\
+ \Longleftrightarrow\qquad
+ &\frac{\partial f}{\partial t} + c\cdot\hat{\textbf{n}}\cdot\nabla f = 0 \\
+ \Longleftrightarrow\qquad
+ &\frac{\partial I_{\nu}}{\partial t} + c\cdot\hat{\textbf{n}}\cdot\nabla I_{\nu} = 0
+\end{align*}
+Since there is a strong similarity to the Euler equations from kinetic theory, the equation above is sometimes also written in a Lagrangian-like form with the derivative $\frac{\mathrm{d}}{\mathrm{d}s} \equiv \frac{1}{c}\frac{\partial}{\partial t} + \hat{\textbf{n}}\cdot\nabla$.
+\begin{align*}
+ \Longleftrightarrow\qquad
+ &\frac{1}{c}\frac{\partial I_{\nu}}{\partial t} + \hat{\textbf{n}}\cdot\nabla I_{\nu} = 0 \\
+ \Longleftrightarrow\qquad
+ &\frac{dI_{\nu}}{ds} = 0
+\end{align*}
+
+As explained in \secref{sec:RadiativeTransfer} with \eqnref{eq:Source_term_derivation}, the radiative transfer equation \eqref{eq:Radiative_transfer} for a non-vacuum regime is given by the previous equation, except for a non-zero source integral.
+
+Using the same exemplary case, we yield
+
+\begin{align*}
+ \Aboxed{\frac{1}{c}\frac{\partial I_{\nu}}{\partial t} + \hat{\textbf{n}}\cdot\nabla I_{\nu} = j_{\nu} - \alpha_{\nu}I_{\nu}}
+\end{align*}
+
+This derivation is not without its assumptions and postulates of course.
+For instance the assumption that the photon transport can be described by the Boltzmann equation was postulated or that scattering can be averaged over all directions equally.
+An alternative derivation is to use the Maxwell equations to obtain the transport equation, if the micro--physical properties of arbitrarily formed, scattering particles are included in the calculations.
+
+The same way as we did for kinetic theory in Appendix~\ref{AppendixA}, we can now take the moments of the radiative transfer equation using the definitions from Eqs.~\eqref{eq:spec_energy}, \eqref{eq:spec_flux} and \eqref{eq:spec_press}, but this time angular moments instead of collisional invariant.
+\begin{itemize}
+ \item The first moment ($\int_{4\pi} \mathrm{d}\Omega$) of the radiative transfer equation reads
+  \begin{align*}
+   &\int \frac{1}{c}\frac{\partial I_{\nu}}{\partial t} \,\mathrm{d}\Omega \,+\, \int \hat{\textbf{n}}\cdot\nabla I_{\nu} \,\mathrm{d}\Omega = \int j_{\nu} \,\mathrm{d}\Omega \,-\, \int \alpha_{\nu}I_{\nu} \,\mathrm{d}\Omega \\
+   \Longleftrightarrow\qquad
+   &\frac{\partial}{\partial t}\Big(\underbrace{ \int \frac{I_{\nu}}{c} \,\mathrm{d}\Omega }_{E_{\nu}}\Big) \,+\, \nabla\cdot\underbrace{ \int \hat{\textbf{n}}I_{\nu} \,\mathrm{d}\Omega }_{\textbf{F}_{\nu}} = j_{\nu}\underbrace{ \int\!\mathrm{d}\Omega }_{4\pi} \,-\, \alpha_{\nu}\underbrace{ \int I_{\nu} \,\mathrm{d}\Omega }_{cE_{\nu}} \\
+   \Longleftrightarrow\qquad\!\!
+   \Aboxed{&\frac{\partial E_{\nu}}{\partial t} \,+\, \nabla\cdot\textbf{F}_{\nu} = 4\pi j_{\nu}\,-\, \alpha_{\nu}cE_{\nu}}
+  \end{align*}
+  As always, we used the Leibniz integral rule in the first step, which finally yields the radiation energy conservation equation.
+
+  \item The second moment ($\int_{4\pi}\hat{\textbf{n}}\,\mathrm{d}\Omega$) of the radiative transfer equation reads
+  \begin{align*}
+   &\int \hat{\textbf{n}}\frac{1}{c}\frac{\partial I_{\nu}}{\partial t} \,\mathrm{d}\Omega \,+\, \int (\hat{\textbf{n}}\otimes\hat{\textbf{n}})\cdot\nabla I_{\nu} \,\mathrm{d}\Omega = \int \hat{\textbf{n}} j_{\nu} \,\mathrm{d}\Omega \,-\, \int \hat{\textbf{n}} \alpha_{\nu}I_{\nu} \,\mathrm{d}\Omega \\
+   \Longleftrightarrow\qquad
+   &\frac{1}{c}\frac{\partial}{\partial t}\Big(\underbrace{ \int \hat{\textbf{n}}I_{\nu} \,\mathrm{d}\Omega }_{\textbf{F}_{\nu}}\Big) \,+\, \nabla\cdot\underbrace{ \int (\hat{\textbf{n}}\otimes\hat{\textbf{n}}) I_{\nu} \,\mathrm{d}\Omega }_{c\mathbb{P}_{\nu}} = \underbrace{ \int \hat{\textbf{n}} j_{\nu} \,\mathrm{d}\Omega }_{=0 \,(\text{isotropic})} \,-\, \alpha_{\nu}\underbrace{ \int \hat{\textbf{n}}I_{\nu} \,\mathrm{d}\Omega }_{\textbf{F}_{\nu}} \\
+   \Longleftrightarrow\qquad
+   &\frac{1}{c}\frac{\partial\textbf{F}_{\nu}}{\partial t} \,+\, c\,\nabla\cdot\mathbb{P}_{\nu} = - \alpha_{\nu}\textbf{F}_{\nu} \\
+   \Longleftrightarrow\qquad\!\!
+   \Aboxed{&\frac{1}{c^{2}}\frac{\partial\textbf{F}_{\nu}}{\partial t} \,+\, \nabla\cdot\mathbb{P}_{\nu} = - \frac{\alpha_{\nu}\textbf{F}_{\nu}}{c}}
+  \end{align*}
+  The vanishing emission term can also be explained mathematically, if one considers
+  \begin{align*}
+   \int_{4\pi}\hat{\textbf{n}} j_{\nu}\,\mathrm{d}\Omega &= j_{\nu} \int_{0}^{2\pi}\int_{0}^{\pi}\big(\sin{\theta}\cos{\phi}\,\hat{\textbf{x}} + \sin{\theta}\sin{\phi}\,\hat{\textbf{y}} + \cos{\theta}\,\hat{\textbf{z}} \big)\,\mathrm{d}\theta\sin{\theta}\mathrm{d}\phi \\
+   &= j_{\nu} \int_{0}^{2\pi}\int_{0}^{\pi}\big(\underbrace{ \sin^{2}{\theta} }_{\mathclap{\frac{1}{2} - \frac{\cos{2\theta}}{2}}}\cos{\phi}\,\hat{\textbf{x}} + \sin^{2}{\theta}\sin{\phi}\,\hat{\textbf{y}} + \sin{\theta}\cos{\theta}\,\hat{\textbf{z}} \big)\,\mathrm{d}\theta\mathrm{d}\phi \\
+   &= j_{\nu} \underbrace{ [\sin{\phi}]_{0}^{2\pi} }_{0}\big[\frac{\theta}{2}-\frac{\sin{\theta}\cos{\theta}}{2}\big]_{0}^{\pi}\,\hat{\textbf{x}} + j_{\nu} \underbrace{ [-\cos{\phi}]_{0}^{2\pi} }_{0}\big[\frac{\theta}{2} - \frac{\sin{\theta}\cos{\theta}}{2}\big]_{0}^{\pi}\,\hat{\textbf{y}} \\
+   &\quad\! + 2\pi\underbrace{ \big[-\frac{\cos^{2}{\theta}}{2}\big]_{0}^{\pi} }_{0}\,\hat{\textbf{z}} \\
+   &= 0
+  \end{align*}
+
+\end{itemize}

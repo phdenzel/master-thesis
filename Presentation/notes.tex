@@ -1,0 +1,331 @@
+\documentclass{beamer}
+\usetheme{Copenhagen} % {Malmoe} % {Warsaw} % {Boadilla} % {Madrid}
+
+%% Packages
+%-------------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{array}
+%\graphicspath{Graphics/}
+\usepackage{multimedia}
+\usepackage{hyperref}
+\usepackage{ulem}
+\usepackage{color}
+\usepackage{siunitx}
+\usepackage{amssymb}
+\usepackage{multirow}
+\beamertemplatenavigationsymbolsempty
+
+
+%%%%%%%%%%%% Layout color settings
+%-------------------------------------------------------------------------------
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=blue!15!black!30}%white}
+
+\setbeamercolor{alerted text}{fg=red!85!black}
+
+\setbeamercolor{item projected}{use=item,fg=black,bg=item.fg!35}
+
+\setbeamercolor*{palette primary}{use=structure,fg=structure.fg}
+\setbeamercolor*{palette secondary}{use=structure,fg=structure.fg!95!black}
+\setbeamercolor*{palette tertiary}{use=structure,fg=structure.fg!90!black}
+\setbeamercolor*{palette quaternary}{use=structure,fg=structure.fg!95!black,bg=black!80}
+
+\setbeamercolor*{framesubtitle}{fg=black!50}
+
+\setbeamercolor*{block title}{parent=structure,bg=black!60}
+\setbeamercolor*{block body}{fg=black,bg=black!10}
+\setbeamercolor*{block title alerted}{parent=alerted text,bg=black!15}
+\setbeamercolor*{block title example}{parent=example text,bg=black!15}
+
+\setbeamercolor{framesource}{fg=black!50}
+\setbeamerfont{framesource}{size=\tiny}
+
+
+%%%%%%%%%%%% Information
+%-------------------------------------------------------------------------------
+\title{Radiation hydrodynamics of star formation}
+\author{Philipp Denzel}
+\date{\today}
+\institute{Institute for Computational Science}
+
+
+%%%%%%%%%%%% Presentation
+%-------------------------------------------------------------------------------
+\begin{document}
+
+\begin{frame}
+ \frametitle{Slide 1 -- Title and cover page}
+ Welcome and Title explanation
+
+ \begin{itemize}
+   \item Radiation hydrodynamics:
+
+   In RHD considering radiation to be a massless relativistic fluid which in certain conditions has great influence on non--relativistic matter.
+   This is called radiative transfer.
+
+   An analogous strategy can be applied as for classical hydrodynamics in which the microscopic behavior of particles is averaged over to recover macroscopic dynamics of the whole as well as the conservation laws of the descriptive variables.
+
+   RHD combines classical hydrodynamics and this radiative transfer to describe this interaction of the two fluid descriptions.
+ \end{itemize}
+
+ The cover page shows the numerical result of this theory.
+ It represents the infrared radiation density within a molecular cloud, I'll tell more about these simulations later...
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \begin{itemize}
+   \item Star formation: the process of the creation of protostars and eventually stars
+
+   Stars are the probably best researched astronomical objects in the Universe.
+
+   Partially because one is right in our neighborhood.
+
+   The Sun is considered to be the essential energy source for the existence of life on Earth.
+
+   The energy is gained by fusion in the star's core. It combines H atoms to He and so on... this process also enriches the Universe with metals (up to Fe; essential for the formation of other structures).
+
+   The other reason is that stars are almost the only light source we can see either directly or indirectly through the thermal emission of heated gas or dust around them.
+
+   Exceptions are only two: synchrotron radiation from particles in magnetic fields and emission from quasars as a result of the release of gravitational energy as mass spirals into the center of accretion disks.
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 2 -- Structure}
+ Explain structure of the presentation
+
+ \begin{itemize}
+   \item Hydrodynamics
+   \item Radiative transfer
+   \item bring both components together
+   \item Basics in numerical methods
+   \item Molecular clouds
+   \item Star formation process
+   \item Simulations
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Slide 3 -- Hydrodynamics}
+ \begin{itemize}
+   \item Fluid is a gas or liquid composed of molecules that collide with each other and different kinds of matter.
+
+   This means that fluids are actually discretized on a microscopic level.
+
+   \item However hydrodynamics assumes otherwise.
+
+   The fluid is here described as a continuum where its properties like density, flow velocity, pressure and temperature are everywhere well--defined...
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \begin{itemize}
+   \item This assumption is applied on the Boltzmann equation which describes the displacement of these discrete fluid elements in phase space.
+
+   It is the basic equation from which the dynamics of a fluid are recovered.
+
+   \item In the application of the molecular chaos assumption, we see that the source or collision integral is zero.
+   This is equal to say that the fluid elements are close to local thermodynamical equilibrium where collisions average out overall.
+
+   \item The averages over phase space volumes of the Boltzmann equation recovers the foundational axioms of fluid dynamics on a macroscopic level.
+
+   \item These equations express the conservation of mass, momentum and energy.
+
+   The first equation is also known as Continuity equation, the second is an incorporation of Newton's Second Law of Motion and the third is also known as First Law of Thermodynamics.
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 4 -- Radiative transfer}
+ \begin{itemize}
+  \item The fundamental quantity to describe a field of radiation is the radiation specific intensity.
+
+  \item The energy flowing through an area is proportional to the solid angle about the flow direction in a certain time and frequency interval.
+  The proportionality factor is described by the radiation specific intensity.
+
+  \item Analogously to the classical hydrodynamics case, a Boltzmann equation corresponding to photons leads to the radiative transfer equation.
+
+  However, radiation cannot be assumed to be continuous as before, which means we have to include the collision or source integral.
+
+  \item This can be derived by means of an example...
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \begin{itemize}
+  \item Let's consider a source emitting radiation towards a cloud laced with dust and behind that cloud a detector measuring the radiation coming through the cloud.
+
+  Obviously, due to experience here on Earth when you look at the sky it can happend that the light of the Sun is blocked or at least weakened by clouds.
+  \item In our example the light can interact with the cloud through several processes.
+
+  Scattering and absorption weaken the intensity.
+  Thermal emission on the other hand can contribute to the intensity.
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 5 -- Radiative transfer}
+ \begin{itemize}
+  \item This results in the Boltzmann equation for a relativistic fluid and its moments expressing conservation laws for energy and momentum.
+
+  \item They are very similar to the classical hydrodynamics equations, which is why I showed them in the first place.
+
+  \item All these equations are hyperbolic partial differential equations and describe the conservation of a particular variable.
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 6 -- Numerical Methods}
+ \begin{itemize}
+   \item Since all the equations have the same form, it is easy to construct a numerical scheme to solve them all.
+
+   Of course, there are slight differences such as source terms which have to be solved individually.
+
+   \item It was Godunov in 1959 who thought of such a numerical scheme for conservation laws.
+
+   The main idea is to either discretize an analytical function or to already start from discretized data.
+
+   This can be done such that one obtains structured, that is rectangular, or unstructured grid cells.
+
+   \item The integral form with the discretized data already recovers the numerical scheme.
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 6 -- Numerical Methods}
+ \begin{itemize}
+   \item Godunov himself predicted that this scheme and schemes using Godunov--like strategies can actually never be higher than first order.
+
+   \item However, there are options to improve this scheme. For example to already start with different discretizations, for example with piecewise linear interpolations or even piecewise parabolic interpolations.
+
+   \item This in turn requires modifications in the Riemann solver.
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 7 -- AMR}
+ \begin{itemize}
+   \item The simulations I will present, were performed with RAMSES, which is a easy choice if your supervisor is actually its creator.
+
+   \item It is the
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+% \begin{frame}
+%  \frametitle{Slide 7 -- AMR}
+%  \begin{itemize}
+%    \item
+%  \end{itemize}
+% \end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 8 -- Molecular Clouds -- Eagle Nebula}
+ \begin{itemize}
+   \item
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+% \begin{frame}
+%  \frametitle{Slide 8 -- Molecular Clouds -- Eagle Nebula}
+%  \begin{itemize}
+%    \item
+%  \end{itemize}
+% \end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 9 -- Molecular Clouds -- Pillars of Creation}
+ \begin{itemize}
+   \item
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+% \begin{frame}
+%  \frametitle{Slide 9 -- Molecular Clouds -- Pillars of Creation}
+%  \begin{itemize}
+%    \item
+%  \end{itemize}
+% \end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 10 -- Collapse to protostars}
+ \begin{itemize}
+   \item
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+% \begin{frame}
+%  \frametitle{Slide 10 -- Collapse to protostars}
+%  \begin{itemize}
+%    \item
+%  \end{itemize}
+% \end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 11 -- pure HD core collapse}
+ \begin{itemize}
+   \item
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+% \begin{frame}
+%  \frametitle{Slide 11 -- pure HD core collapse}
+%  \begin{itemize}
+%    \item
+%  \end{itemize}
+% \end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 12 -- RHD core collapse}
+ \begin{itemize}
+   \item
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+% \begin{frame}
+%  \frametitle{Slide 12 -- RHD core collapse}
+%  \begin{itemize}
+%    \item
+%  \end{itemize}
+% \end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 13 to 16 -- RHD core collapse}
+ \begin{itemize}
+   \item
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 13 to 16 -- RHD core collapse}
+ \begin{itemize}
+   \item
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+% \begin{frame}
+%  \frametitle{Slide 13 to 16 -- RHD core collapse}
+%  \begin{itemize}
+%    \item
+%  \end{itemize}
+% \end{frame}
+%-------------------------------------------------------------------------------
+\begin{frame}
+ \frametitle{Slide 17 -- Eddington analysis}
+ \begin{itemize}
+   \item
+ \end{itemize}
+\end{frame}
+%-------------------------------------------------------------------------------
+% \begin{frame}
+%  \frametitle{Slide 17 -- Eddington analysis}
+%  \begin{itemize}
+%    \item
+%  \end{itemize}
+% \end{frame}
+%-------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
+\end{document}

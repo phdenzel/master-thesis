@@ -1,0 +1,133 @@
+% !TEX root = ../main.tex
+% Appendix C
+
+\chapter{RAMSES units and parameters} % Main appendix title
+
+\label{AppendixC} % For referencing this appendix elsewhere, use \ref{AppendixC}
+
+\section{User units}
+\label{app:Units}
+
+The unit parameters in RAMSES are defined before the compilation.
+During the simulation, the program calculates in code units, which are usually numbers not too distant from unity~\footnote{because those are easier to handle and store for computers}, but whenever it writes outputs these parameters can be used to convert code units into CGS units.
+There are three base units from which all other units can be derived over fundamental constants.
+\begin{itemize}
+  \item \code{scale\_d} \quad--- converts to the physical density units in $g\,cm^{-3}$
+  \item \code{scale\_t} \quad--- converts to the physical time units in $s$, for runs with self--gravity has to be set to \code{(G*scale\_d)**(1./2)} with the gravitational constant \code{G}
+  \item \code{scale\_l} \quad--- converts to the physical length units in $cm$
+\end{itemize}
+
+\section{Namelist parameters}
+\label{app:Parameters}
+
+The following list contains all important or non--default parameters~\footnote{some non--default and unimportant parameters have been omitted for sake of brevity} used in the RAMSES and RAMSES--RT simulations. \\[-3pt]
+
+\begin{itemize}
+  \item \code{\&RUN\_PARAMS} \quad--- contains global parameters which mostly activate modules \\[-9pt]
+  \begin{itemize}
+    \item \code{hydro=.true.} --- activates hydrodynamics solver \\[-9pt]
+    \item \code{rt=.true.}/\code{.false.} --- activates radiation hydrodynamics solver (usually true for RAMSES--RT, except for some reference runs) \\[-9pt]
+    \item \code{pic=.true.} --- activates Particle Mesh solver \\[-9pt]
+    \item \code{poisson=.true.} --- activates Poisson solver \\[-9pt]
+    \item \code{sink=.true.}/\code{.false.} --- activates sink particles \\[-9pt]
+    \item \code{clumpfind=.true.} --- activates the Clump Finder (required for sink particle creation) \\[-9pt]
+    \item \code{nsubcycle=1-2,1-2,1-2,1-2,1-2,1-2} --- determines how many subcycles per coarse step are used in each level for the hydrodynamics solver, starting from the minimum to the maximum level (were adjusted depending on the required speed for every simulation with either 1 or 2) \\[-9pt]
+    \item \code{nremap=1-4} --- calls for the load balancing routine (was adjusted depending on how many CPUs were used) \\[-9pt]
+    \item default values were used for the rest \\[-3pt]
+  \end{itemize}
+  \item \code{\&AMR\_PARAMS} \quad--- contains parameters for the AMR grid \\[-9pt]
+  \begin{itemize}
+    \item \code{levelmin=7-8} --- the minimum level of refinement; corresponds to a base grid of $128^{ndim}$ cells (usually 7, but for smaller runs sometimes also 8) \\[-9pt]
+    \item \code{levelmax=11-16} --- the maximum level of refinement; corresponds to a fully refined grid of $8192^{ndim}$ cells (usually as low as is acceptable, for bigger runs occasionally higher to reach higher resolution) \\[-9pt]
+    \item \code{ngridtot=2e6-2e8} --- the memory allocated by processors for all grids in units of octs (usually chosen depending on the number of cpus) \\[-9pt]
+    \item \code{nparttot=1e6-1e8} --- the memory allocated by processors for all particles in number of particles (usually chosen depending on the expected number of sinks) \\[-9pt]
+    \item \code{nexpand=2*9} --- number of mesh expansions in order to reduce noise in the refinement maps due to exceeding non--linearities in the flow variables \\[-9pt]
+    \item \code{boxlen=1.} --- the length of the simulation box in code units \\[-9pt]
+    \item default values were used for the rest \\[-3pt]
+  \end{itemize}
+  \item \code{\&INIT\_PARAMS} \quad--- provides a method to start the simulation from initial conditions \\[-9pt]
+  \begin{itemize}
+    \item \code{filetype='grafic'} --- states the format of the files containing the initial conditions (only used for the cloud simulation) \\[-9pt]
+    \item \code{initfile(*)='path/to/initfile\_part*'} --- tells the program where to search for the files (only used for the cloud simulation) \\[-9pt]
+    \item alternatively RAMSES can also be compiled with initial conditions defined in the designated file \code{init\_cond.f90} \\[-3pt]
+  \end{itemize}
+  \item \code{\&OUTPUT\_PARAMS} \quad--- contains parameters defining output properties\\[-9pt]
+  \begin{itemize}
+    \item \code{tend=2.0} --- sets the simulation length in user units\\[-9pt]
+    \item \code{delta\_tout=0.01} --- sets the interval between outputs\\[-9pt]
+    \item \code{foutput=50} --- sets the frequency of outputs in units of coarse time steps\\[-3pt]
+  \end{itemize}
+  \item \code{\&BOUNDARY\_PARAMS} \quad--- \\[-9pt]
+  \begin{itemize}
+    \item \code{nboundary=6} --- number of ghost regions at the boundaries\\[-9pt]
+    \item \code{bound\_type= 2, 2, 2, 2, 2, 2} --- type of boundary for each region; index 2 means outflow\\[-9pt]
+    \item \code{ibound\_min=-1,+1,-1,-1,-1,-1} --- lower left and bottom corner normal coordinates of boundary \code{i}\\[-9pt]
+    \item \code{ibound\_max=-1,+1,+1,+1,+1,+1} --- upper right and top corner normal coordinates of boundary \code{i}\\[-9pt]
+    \item \code{jbound\_min= 0, 0,-1,+1,-1,-1} --- lower left and bottom corner normal coordinates of boundary \code{j}\\[-9pt]
+    \item \code{jbound\_max= 0, 0,-1,+1,+1,+1} --- upper right and top corner normal coordinates of boundary \code{j}\\[-9pt]
+    \item \code{kbound\_min= 0, 0, 0, 0,-1,+1} --- lower left and bottom corner normal coordinates of boundary \code{k}\\[-9pt]
+    \item \code{kbound\_max= 0, 0, 0, 0,-1,+1} --- upper right and top corner normal coordinates of boundary \code{k}\\[-9pt]
+    \item default values were used for the rest \\[-3pt]
+  \end{itemize}
+  \item \code{\&HYDRO\_PARAMS} \quad --- provides parameters for the hydrodynamical solver\\[-9pt]
+  \begin{itemize}
+    \item \code{gamma=1.6666} --- sets the adiabatic coefficient for the EOS\\[-9pt]
+    \item \code{riemann='hllc'} --- choses the kind of Riemann solver; see \secref{subsec:Riemann_problem}\\[-9pt]
+    \item \code{scheme='muscl'} --- choses the specific Godunov scheme; see \secref{sec:MUSCL}\\[-9pt]
+    \item \code{slope\_type=1} --- specifies the type of the slope limiters used; index 1 stands for the MinMod limiter\\[-9pt]
+    \item \code{courant\_factor=0.8} --- specifies the Courant factor of the hydrodynamics solver\\[-3pt]
+  \end{itemize}
+  \item \code{\&PHYSICS\_PARAMS} \quad --- \\[-9pt]
+  \begin{itemize}
+    \item \code{isothermal=.false.}/\code{.true.} --- enforces an isothermal EOS with constant temperature\\[-9pt]
+    \item \code{neq\_chem=.true.} --- activates non--equilibrium thermochemistry\\[-9pt]
+    \item \code{T2\_star=0.-4.29} --- typical interstellar medium temperature in units of K/$\mu$\\[-9pt]
+    \item \code{ir\_feedback=.true.} --- activates infrared radiation feedback\\[-9pt]
+    \item \code{ir\_eff=1.0} --- sets the efficiency of infrared radiation feedback\\[-3pt]
+  \end{itemize}
+  \item \code{\&REFINE\_PARAMS} \quad --- holds parameters for refinement strategies\\[-9pt]
+  \begin{itemize}
+    \item \code{mass\_sph=2.734d-09} --- minimal mass for the SPH--like refinement strategy; see \secref{sec:AMR}\\[-9pt]
+    \item \code{m\_refine=.1,.1,.1,1.,1.,1.,1.,1.,1.,1.,} --- assigning SPH--like refinement criterion to each level\\[-9pt]
+    \item \code{jeans\_refine=6*9} --- sets the Jeans refinement criterion for each level in grid spacings\\[-9pt]
+    \item \code{interpol\_var=0} --- sets the type of variables for the refinement of cells; index 0 stands for conservative variables (sometimes it is more stable to use index 1 standing for primitive variables)\\[-9pt]
+    \item \code{interpol\_type=2} --- sets the type of slope limiters for the refinement interpolation; index 2 stands for van Leers monotonizing limiter\\[-9pt]
+    \item \code{x\_refine=.5,.5,.5} --- sets x coordinate for region--based refinement strategy (only used for the cloud simulations)\\[-9pt]
+    \item \code{y\_refine=.5,.5,.5} --- sets y coordinate for a region--based refinement strategy (only used for the cloud simulations)\\[-9pt]
+    \item \code{z\_refine=.5,.5,.5} --- sets z coordinate for a region--based refinement strategy (only used for the cloud simulations)\\[-9pt]
+    \item \code{r\_refine=.85,.80,.75} --- sets radius of the region--based refinement strategy (only used for the cloud simulations)\\[-9pt]
+    \item \code{exp\_refine=2.,2.,2.} --- sets shape of the region--based refinement strategy (only used for the cloud simulations)\\[-3pt]
+  \end{itemize}
+  \item \code{\&SINK\_PARAMS} \quad --- holds the specification parameters for the sink particles\\[-9pt]
+  \begin{itemize}
+    \item \code{create\_sinks=.true.} --- activates sink creation\\[-9pt]
+    \item \code{clump\_core=.true.} --- only core of a clump is used in the sink creation criteria (only used for cloud and self--similar runs)\\[-9pt]
+    \item \code{rho\_sink=1.d-13} --- sets the density threshold for sink creation (usually \code{1.d-13} is used sometimes also less depending on spatial resolution)\\[-9pt]
+    \item \code{mass\_sink\_seed=0.001419} --- sets sink seed mass at creation (is usually set to a fraction of the possible maximal mass within a cell)\\[-9pt]
+    \item \code{accretion\_scheme='flux'} --- determines the accretion scheme\\[-9pt]
+    \item \code{nol\_accretion=.false.}/\code{.true.} --- no angular momentum transfer at accretion (sometimes more more stable without transfer)\\[-9pt]
+    \item \code{merging\_timescale=5000} --- activates merging of sinks of ages within the timescale in units of years\\[-3pt]
+  \end{itemize}
+  \item \code{\&RT\_PARAMS} \quad --- contains the many RT--parameters representing radiative transfer effects; see \citet{Joki_RT}\\[-9pt]
+  \begin{itemize}
+    \item \code{rt\_isIR=.true.} --- activates IR photon group\\[-9pt]
+    \item \code{rt\_isIRtrap=.true.} --- splits IR photon group into streaming and trapped photon sub--groups\\[-9pt]
+    \item \code{is\_kIR\_T=.true.} --- activates calculation of the opacities depending on temperature according to \citet{Davisetal}\\[-9pt]
+    \item \code{rt\_otsa=.true.} --- activates on the spot approximation, which absorbs ionizing radiation inside the same cell it has been emitted\\[-9pt]
+    \item \code{rt\_c\_fraction=0.000048167} --- fraction of reduced and the actual speed of light from the RSLA; see \secref{subsec:Radiation_source} (is usually calculated according to \citet{Skinner_Ostriker})\\[-9pt]
+    \item \code{rt\_courant\_factor=0.8} --- sets Courant factor of the radiation advection solver\\[-9pt]
+    \item \code{rt\_flux\_scheme='glf'} --- specifies the Riemann solver for the radiation advection solver; see \secref{subsec:Riemann_problem}\\[-9pt]
+    \item \code{rt\_smooth=.true.} --- smoothing of the operator--splitting scheme\\[-9pt]
+    \item \code{Trad\_floor=10.} --- enforces a radiation temperature floor in units of K\\[-9pt]
+    \item \code{rt\_nsubcycle=100} --- maximal number of steps of the radiation solver's subcycling\\[-9pt]
+    \item \code{c\_frac\_speed\_factor=10.} --- non--official RT--parameter for alleviating the RSLA\\[-3pt]
+  \end{itemize}
+  \item \code{\&RT\_GROUPS} \quad --- contains the parameters for all photon groups\\[-9pt]
+  \begin{itemize}
+    \item \code{kappaAbs(:)=0.1} --- Planck average opacities in units of cm$^{2}$/g; see \citet{Davisetal}\\[-9pt]
+    \item \code{kappaSc(:)=0.035} --- Rosseland average opacities in units cm$^{2}$/g; see \citet{Davisetal}\\[-9pt]
+    \item \code{groupL0=1d-1} --- lower energy boundaries in units of eV\\[-9pt]
+    \item \code{groupL1=1d0} --- upper energy boundaries in units of eV\\[-9pt]
+    \item \code{group\_egy=1d-1} --- average photon energies in units of eV\\[-3pt]
+  \end{itemize}
+\end{itemize}
